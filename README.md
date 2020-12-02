@@ -2,7 +2,13 @@
 
 ## Configuring Postgres database:
 
-After creating your Postgres database, add proper tables with:
+After creating your Postgres database, select the correct timezone, for example:
+
+```
+SET timezone TO 'Europe/Helsinki';
+```
+
+then add proper tables with:
 
 ```
 CREATE TABLE users (
@@ -33,7 +39,7 @@ CREATE TABLE evening_reports (
 );
 ```
 
-Then create a `.env` file to project root, and add contents proper contents to:
+then create a `.env` file to project root, and add contents proper contents to:
 
 ```
 PG_USER=
