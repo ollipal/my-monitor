@@ -1,6 +1,6 @@
 import { Router } from "../deps.js";
-import { handleGet } from "./controllers/behaviorController.js";
-import * as behaviorApi from "./apis/behaviorApi.js";
+import { handleGet } from "./controllers/reportController.js";
+import * as reportApi from "./apis/reportApi.js";
 
 const router = new Router();
 
