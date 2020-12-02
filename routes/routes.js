@@ -1,16 +1,16 @@
 import { Router } from "../deps.js";
 import {
-  handleLanding,
-  handleBehaviourSummary,
-  handlePostMorningForm,
+  getLanding,
+  getBehaviourSummary,
+  postMorningform,
 } from "./controllers/reportController.js";
 import * as reportApi from "./apis/reportApi.js";
 
 const router = new Router();
 
 router
-  .get("/", handleLanding)
-  .get("/behavior/summary", handleBehaviourSummary)
-  .post("/morningform", handlePostMorningForm);
+  .get("/", getLanding)
+  .get("/behavior/summary", getBehaviourSummary)
+  .post("/morningform", postMorningform);
 
 export { router };
