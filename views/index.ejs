@@ -1,0 +1,6 @@
+<h1>my-monitor</h1>
+<ul>
+    <% behaviors.forEach(behavior => { %>
+    <li><a href="/behavior/<%= behavior.id %>"><%= behavior.title %></a></li>
+    <% }); %>
+</ul>
