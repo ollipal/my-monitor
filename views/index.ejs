@@ -1,6 +1,9 @@
+<%- include('./partials/header.ejs') %>
 <h1>my-monitor</h1>
 <ul>
     <% morningReports.forEach(report => { %>
     <li><a href="/behavior/<%= report.id %>"><%= report.date %></a></li>
     <% }); %>
 </ul>
+<%- include('./partials/morningReportForm.ejs') %>
+<%- include('./partials/footer.ejs') %>

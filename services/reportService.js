@@ -8,4 +8,17 @@ const getAllMorningReports = async () => {
   return [];
 };
 
-export { getAllMorningReports };
+const addMorningReport = async (report) => {
+  await executeQuery(
+    "INSERT INTO morning_reports " +
+      "(user_id, date, sleep_duration, sleep_quality, mood) " +
+      "VALUES ($1, $2, $3, $4, $5);",
+    1, // TODO allow other users
+    report.get("date"),
+    report.get("sleep_duration"),
+    report.get("sleep_quality"),
+    report.get("mood")
+  );
+};
+
+export { getAllMorningReports, addMorningReport };

@@ -1,0 +1,12 @@
+<h2>Submit morning report</h2>
+<form action="/morningform" method="POST">
+    <label for="fdate">Date:</label><br>
+    <input type="date" id="fdate" name="date" value="<%= date %>"><br>
+    <label for="fsleep_duration">Sleep duration:</label><br>
+    <input type="number" id="fsleep_duration" name="sleep_duration" step="0.1"><br>
+    <label for="fsleep_quality">Sleep quality:</label><br>
+    <input type="number" id="fsleep_quality" name="sleep_quality" min="1" max="5"><br>
+    <label for="fmood">Generic mood:</label><br>
+    <input type="number" id="fmood" name="mood" min="1" max="5"><br>
+    <input type="submit" value="Submit" /><br>
+</form>
