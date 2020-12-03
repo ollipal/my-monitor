@@ -32,4 +32,11 @@ const postMorningform = async ({ request, response }) => {
   response.redirect("/");
 };
 
-export { getBehaviourSummary, getLanding, postMorningform };
+const postEveningform = async ({ request, response }) => {
+  const report = await request.body().value;
+  // TODO validate report
+  await reportService.addEveningReport(report);
+  response.redirect("/");
+};
+
+export { getBehaviourSummary, getLanding, postMorningform, postEveningform };

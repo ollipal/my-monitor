@@ -25,7 +25,6 @@ const getReportAverages = async () => {
 };
 
 const addMorningReport = async (report) => {
-  console.log(report.get("date"));
   await executeQuery(
     `INSERT INTO morning_reports
     (user_id, date, sleep_duration, sleep_quality, mood)
@@ -34,6 +33,20 @@ const addMorningReport = async (report) => {
     report.get("date"),
     report.get("sleep_duration"),
     report.get("sleep_quality"),
+    report.get("mood")
+  );
+};
+
+const addEveningReport = async (report) => {
+  await executeQuery(
+    `INSERT INTO evening_reports
+    (user_id, date, sports_exercise_duration, study_duration, eating_quality, mood)
+    VALUES ($1, $2, $3, $4, $5, $6);`,
+    1, // TODO allow other users
+    report.get("date"),
+    report.get("sports_exercise_duration"),
+    report.get("study_duration"),
+    report.get("eating_quality"),
     report.get("mood")
   );
 };
@@ -53,6 +66,7 @@ const getMorningReport = async (date) => {
 
 export {
   addMorningReport,
+  addEveningReport,
   getAllMorningReports,
   getReportAverages,
   getMorningReport,
