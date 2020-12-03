@@ -2,8 +2,8 @@ import { Router } from "../deps.js";
 import {
   getBehaviourSummary,
   getLanding,
-  postMorningform,
   postEveningform,
+  postMorningform,
 } from "./controllers/reportController.js";
 import * as reportApi from "./apis/reportApi.js";
 

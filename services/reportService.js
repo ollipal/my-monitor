@@ -8,7 +8,7 @@ const formattedDate = (date) => {
 
 const _getMorningReports = async () => {
   const res = await executeQuery(
-    "SELECT id, date, sleep_duration, sleep_quality, morning_mood FROM morning_reports"
+    "SELECT id, date, sleep_duration, sleep_quality, morning_mood FROM morning_reports",
   );
   if (res && res.rowCount > 0) {
     return res.rowsOfObjects();
@@ -18,7 +18,7 @@ const _getMorningReports = async () => {
 
 const _getEveningReports = async () => {
   const res = await executeQuery(
-    "SELECT id, date, sports_duration, study_duration, eating_quality, evening_mood FROM evening_reports"
+    "SELECT id, date, sports_duration, study_duration, eating_quality, evening_mood FROM evening_reports",
   );
   if (res && res.rowCount > 0) {
     return res.rowsOfObjects();
@@ -40,7 +40,7 @@ const _getMorningAverages = async () => {
     AVG(sleep_quality)::numeric(10,2) AS average_sleep_quality,
     AVG(morning_mood)::numeric(10,2) AS average_morning_mood
     FROM morning_reports
-    WHERE date BETWEEN date_trunc('week', NOW()) AND NOW();`
+    WHERE date BETWEEN date_trunc('week', NOW()) AND NOW();`,
   );
   if (res && res.rowCount > 0) {
     return res.rowsOfObjects()[0];
@@ -61,7 +61,7 @@ const _getEveningAverages = async () => {
     AVG(eating_quality)::numeric(10,2) AS average_eating_quality,
     AVG(evening_mood)::numeric(10,2) AS average_evening_mood
     FROM evening_reports
-    WHERE date BETWEEN date_trunc('week', NOW()) AND NOW();`
+    WHERE date BETWEEN date_trunc('week', NOW()) AND NOW();`,
   );
   if (res && res.rowCount > 0) {
     return res.rowsOfObjects()[0];
@@ -92,7 +92,7 @@ const addMorningReport = async (report) => {
     report.get("date"),
     report.get("sleep_duration"),
     report.get("sleep_quality"),
-    report.get("morning_mood")
+    report.get("morning_mood"),
   );
 };
 
@@ -106,7 +106,7 @@ const addEveningReport = async (report) => {
     report.get("sports_duration"),
     report.get("study_duration"),
     report.get("eating_quality"),
-    report.get("evening_mood")
+    report.get("evening_mood"),
   );
 };
 
@@ -115,7 +115,7 @@ const _getMorningReport = async (date) => {
     `SELECT sleep_duration, sleep_quality, morning_mood
     FROM morning_reports
     WHERE date_trunc('day', date) = $1;`,
-    formattedDate(date)
+    formattedDate(date),
   );
   if (res && res.rowCount > 0) {
     return res.rowsOfObjects()[0]; // TODO make sure only one exists
@@ -128,7 +128,7 @@ const _getEveningReport = async (date) => {
     `SELECT sports_duration, study_duration, eating_quality, evening_mood
     FROM evening_reports
     WHERE date_trunc('day', date) = $1;`,
-    formattedDate(date)
+    formattedDate(date),
   );
   if (res && res.rowCount > 0) {
     return res.rowsOfObjects()[0]; // TODO make sure only one exists
@@ -146,6 +146,7 @@ const getReport = async (date) => {
   const morningReport = await _getMorningReport(date);
   const eveningReport = await _getEveningReport(date);
   const report = { ...morningReport, ...eveningReport };
+  // deno-lint-ignore camelcase
   const avg_mood =
     report.morning_mood === "N/A" || report.evening_mood === "N/A"
       ? "N/A"
@@ -154,10 +155,10 @@ const getReport = async (date) => {
 };
 
 export {
-  formattedDate,
-  addMorningReport,
   addEveningReport,
-  getReports,
-  getReportAverages,
+  addMorningReport,
+  formattedDate,
   getReport,
+  getReportAverages,
+  getReports,
 };

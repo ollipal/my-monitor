@@ -4,7 +4,7 @@ import * as reportService from "../../services/reportService.js";
 const getLanding = async ({ render }) => {
   const todaysReport = await reportService.getReport(new Date());
   const yesterdaysReport = await reportService.getReport(
-    new Date(Date.now() - 24 * 60 * 60 * 1000)
+    new Date(Date.now() - 24 * 60 * 60 * 1000),
   );
   const mood =
     todaysReport.avg_mood === "N/A" || yesterdaysReport.avg_mood === "N/A"
@@ -41,4 +41,4 @@ const postEveningform = async ({ request, response }) => {
   response.redirect("/");
 };
 
-export { getBehaviourSummary, getLanding, postMorningform, postEveningform };
+export { getBehaviourSummary, getLanding, postEveningform, postMorningform };
