@@ -51,6 +51,14 @@ PG_DB_NAME=
 
 ## Running the application
 
-After the database has been configured, run the application with:
+After the database has been configured, you can run
 
+- app with: `./app.sh run`
+- tests with: `./app.sh test`
+- formatter with: `./app.sh format`
+- linter with: `./app.sh lint`
+- test+formatter+linter with: `./app.sh pre-commit`
+
+(if bash script is not working, you can use
 `deno run --allow-read --allow-net app.js`
+to run the application, etc.)

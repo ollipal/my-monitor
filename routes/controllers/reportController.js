@@ -23,4 +23,4 @@ const postMorningform = async ({ request, response }) => {
   response.redirect("/");
 };
 
-export { getLanding, getBehaviourSummary, postMorningform };
+export { getBehaviourSummary, getLanding, postMorningform };

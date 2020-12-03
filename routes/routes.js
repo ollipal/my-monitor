@@ -1,7 +1,7 @@
 import { Router } from "../deps.js";
 import {
-  getLanding,
   getBehaviourSummary,
+  getLanding,
   postMorningform,
 } from "./controllers/reportController.js";
 import * as reportApi from "./apis/reportApi.js";

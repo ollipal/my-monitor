@@ -1,7 +1,7 @@
 import { Application } from "./deps.js";
 import { router } from "./routes/routes.js";
 import * as middleware from "./middlewares/middlewares.js";
-import { viewEngine, engineFactory, adapterFactory, Session } from "./deps.js";
+import { adapterFactory, engineFactory, Session, viewEngine } from "./deps.js";
 
 // init oak application
 const app = new Application();
@@ -24,7 +24,7 @@ const oakAdapter = adapterFactory.getOakAdapter();
 app.use(
   viewEngine(oakAdapter, ejsEngine, {
     viewRoot: "./views",
-  })
+  }),
 );
 
 // add routes
