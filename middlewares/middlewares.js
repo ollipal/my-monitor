@@ -12,7 +12,9 @@ const requestLoggingMiddleware = async ({ request }, next) => {
   const start = Date.now();
   await next();
   const ms = Date.now() - start;
-  console.log(`${request.method} ${request.url.pathname} - ${ms} ms`);
+  console.log(
+    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`
+  );
 };
 
 const serveStaticFilesMiddleware = async (context, next) => {

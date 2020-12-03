@@ -4,6 +4,8 @@ import {
   getLanding,
   postEveningform,
   postMorningform,
+  postWeekform,
+  postMonthform,
 } from "./controllers/reportController.js";
 import * as reportApi from "./apis/reportApi.js";
 
@@ -13,6 +15,8 @@ router
   .get("/", getLanding)
   .get("/behavior/summary", getBehaviourSummary)
   .post("/morningform", postMorningform)
-  .post("/eveningform", postEveningform);
+  .post("/eveningform", postEveningform)
+  .post("/behavior/summary/weekform", postWeekform)
+  .post("/behavior/summary/monthform", postMonthform);
 
 export { router };
