@@ -1,23 +1,25 @@
 import { format } from "../../deps.js";
 import * as reportService from "../../services/reportService.js";
 
-const formattedDate = (date) => {
-  console.log(date);
-  return format(date, "yyyy-MM-dd");
-};
-
 const getLanding = async ({ render }) => {
-  const todaysMorningReport = await reportService.getMorningReport(
-    formattedDate(new Date())
+  const todaysReport = await reportService.getReport(new Date());
+  const yesterdaysReport = await reportService.getReport(
+    new Date(Date.now() - 24 * 60 * 60 * 1000)
   );
-  const yesterdaysMorningReport = await reportService.getMorningReport(
-    formattedDate(new Date(Date.now() - 24 * 60 * 60 * 1000))
-  );
+  const mood =
+    todaysReport.avg_mood === "N/A" || yesterdaysReport.avg_mood === "N/A"
+      ? "Mood direction is not available"
+      : todaysReport.avg_mood > yesterdaysReport.avg_mood
+      ? "Mood is improving :D"
+      : todaysReport.morning_mood === yesterdaysReport.morning_mood
+      ? "Mood is the same as yesterday :)"
+      : "Mood is not improving :(";
   render("index.ejs", {
-    morningReports: await reportService.getAllMorningReports(),
-    date: formattedDate(new Date()),
-    todaysMorningReport,
-    yesterdaysMorningReport,
+    reports: await reportService.getReports(),
+    date: reportService.formattedDate(new Date()),
+    todaysReport,
+    yesterdaysReport,
+    mood,
   });
 };
 

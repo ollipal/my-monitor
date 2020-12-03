@@ -1,31 +1,13 @@
 <%- include('./partials/header.ejs') %>
 <h1>my-monitor</h1>
 <ul>
-    <% morningReports.forEach(report => { %>
+    <% reports.forEach(report => { %>
     <li><a href="/behavior/<%= report.id %>"><%= report.date %></a></li>
     <% }); %>
 </ul>
 <a href="/behavior/summary">summary</a>
 
-<h2>Yesterday's morning report:</h2>
-<p>sleep duration: <%= yesterdaysMorningReport.sleep_duration %></p>
-<p>sleep quality: <%= yesterdaysMorningReport.sleep_quality %></p>
-<p>morning mood: <%= yesterdaysMorningReport.morning_mood %></p>
-
-<h2>Today's morning report:</h2>
-<p>sleep duration: <%= todaysMorningReport.sleep_duration %></p>
-<p>sleep quality: <%= todaysMorningReport.sleep_quality %></p>
-<p>morning mood: <%= todaysMorningReport.morning_mood %></p>
-
-<h3>Mood is <%=
-todaysMorningReport.morning_mood > yesterdaysMorningReport.morning_mood 
-    ? "improving :D"
-    : todaysMorningReport.morning_mood === yesterdaysMorningReport.morning_mood
-        ? "the same as yesterday :)"
-        : "not improving :("
-%></h3>
-
-
+<%- include('./partials/reportComparison.ejs') %>
 <%- include('./partials/morningReportForm.ejs') %>
 <%- include('./partials/eveningReportForm.ejs') %>
 <%- include('./partials/footer.ejs') %>

@@ -1,7 +1,7 @@
 import * as reportService from "../../services/reportService.js";
 
-const getAllMorningReports = async ({ response }) => {
-  response.body = await reportService.getAllMorningReports();
+const getReports = async ({ response }) => {
+  response.body = await reportService.getReports();
 };
 
-export { getAllMorningReports };
+export { getReports };
