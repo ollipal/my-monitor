@@ -1,14 +1,23 @@
 import { format } from "../../deps.js";
 import * as reportService from "../../services/reportService.js";
 
-const today = () => {
-  return format(new Date(), "yyyy-MM-dd");
+const formattedDate = (date) => {
+  console.log(date);
+  return format(date, "yyyy-MM-dd");
 };
 
 const getLanding = async ({ render }) => {
+  const todaysMorningReport = await reportService.getMorningReport(
+    formattedDate(new Date())
+  );
+  const yesterdaysMorningReport = await reportService.getMorningReport(
+    formattedDate(new Date(Date.now() - 24 * 60 * 60 * 1000))
+  );
   render("index.ejs", {
     morningReports: await reportService.getAllMorningReports(),
-    date: today(),
+    date: formattedDate(new Date()),
+    todaysMorningReport,
+    yesterdaysMorningReport,
   });
 };
 
