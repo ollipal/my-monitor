@@ -25,17 +25,17 @@ CREATE TABLE morning_reports (
     date DATE NOT NULL,
     sleep_duration REAL NOT NULL,
     sleep_quality INT NOT NULL CHECK (0 <= sleep_quality AND sleep_quality <= 5),
-    mood INT NOT NULL CHECK (0 <= mood AND mood <= 5)
+    morning_mood INT NOT NULL CHECK (0 <= morning_mood AND morning_mood <= 5)
 );
 
 CREATE TABLE evening_reports (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) NOT NULL,
     date DATE NOT NULL,
-    sports_exercise_duration REAL NOT NULL,
+    sports_duration REAL NOT NULL,
     study_duration REAL NOT NULL,
     eating_quality INT NOT NULL CHECK (0 <= eating_quality AND eating_quality <= 5),
-    mood INT NOT NULL CHECK (0 <= mood AND mood <= 5)
+    evening_mood INT NOT NULL CHECK (0 <= evening_mood AND evening_mood <= 5)
 );
 ```
 

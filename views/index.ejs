@@ -10,17 +10,17 @@
 <h2>Yesterday's morning report:</h2>
 <p>sleep duration: <%= yesterdaysMorningReport.sleep_duration %></p>
 <p>sleep quality: <%= yesterdaysMorningReport.sleep_quality %></p>
-<p>mood: <%= yesterdaysMorningReport.mood %></p>
+<p>morning mood: <%= yesterdaysMorningReport.morning_mood %></p>
 
 <h2>Today's morning report:</h2>
 <p>sleep duration: <%= todaysMorningReport.sleep_duration %></p>
 <p>sleep quality: <%= todaysMorningReport.sleep_quality %></p>
-<p>mood: <%= todaysMorningReport.mood %></p>
+<p>morning mood: <%= todaysMorningReport.morning_mood %></p>
 
 <h3>Mood is <%=
-todaysMorningReport.mood > yesterdaysMorningReport.mood 
+todaysMorningReport.morning_mood > yesterdaysMorningReport.morning_mood 
     ? "improving :D"
-    : todaysMorningReport.mood === yesterdaysMorningReport.mood
+    : todaysMorningReport.morning_mood === yesterdaysMorningReport.morning_mood
         ? "the same as yesterday :)"
         : "not improving :("
 %></h3>
