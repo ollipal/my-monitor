@@ -1,23 +1,20 @@
-import { executeQuery } from "../database/database.js";
+import { executeQuery, getQueryFirst } from "../database/database.js";
 import { compare, hash } from "../deps.js";
 
 const _getUser = async (email) => {
-  /* if successfull:
+  /*
+   * if successfull:
    *    returns user
    * else
    *    returns null
    */
 
-  const res = await executeQuery("SELECT * FROM users WHERE email = $1", email);
-  if (res?.rowCount > 0) {
-    return res.rowsOfObjects()[0];
-  } else {
-    return null;
-  }
+  return await getQueryFirst("SELECT * FROM users WHERE email = $1", email);
 };
 
 const registerUser = async (email, password) => {
-  /* if successfull:
+  /*
+   * if successfull:
    *    returns true
    * else
    *    returns false
@@ -36,7 +33,8 @@ const registerUser = async (email, password) => {
 };
 
 const loginUser = async (email, password) => {
-  /* if successfull:
+  /*
+   * if successfull:
    *    returns [true, userId]
    * else
    *    returns [false, null]

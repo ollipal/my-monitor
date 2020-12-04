@@ -1,4 +1,8 @@
-import { executeQuery } from "../database/database.js";
+import {
+  executeQuery,
+  getQueryFirst,
+  getQueryRows,
+} from "../database/database.js";
 import { format } from "../deps.js";
 
 const formattedDate = (date) => {
@@ -6,23 +10,15 @@ const formattedDate = (date) => {
 };
 
 const _getMorningReports = async () => {
-  const res = await executeQuery(
+  return await getQueryRows(
     "SELECT id, date, sleep_duration, sleep_quality, morning_mood FROM morning_reports",
   );
-  if (res && res.rowCount > 0) {
-    return res.rowsOfObjects();
-  }
-  return [];
 };
 
 const _getEveningReports = async () => {
-  const res = await executeQuery(
+  return await getQueryRows(
     "SELECT id, date, sports_duration, study_duration, eating_quality, evening_mood FROM evening_reports",
   );
-  if (res && res.rowCount > 0) {
-    return res.rowsOfObjects();
-  }
-  return [];
 };
 
 const getReports = async () => {
@@ -33,7 +29,7 @@ const getReports = async () => {
 };
 
 const _getMorningAverages = async ({ userId, week, month, year }) => {
-  const res = await executeQuery(
+  const averages = await getQueryFirst(
     `SELECT
     AVG(sleep_duration)::numeric(10,2) AS average_sleep_duration,
     AVG(sleep_quality)::numeric(10,2) AS average_sleep_quality,
@@ -44,12 +40,10 @@ const _getMorningAverages = async ({ userId, week, month, year }) => {
     week ? "IYYY-IW" : "IYYY-MM",
     week ? `${year}-${week}` : `${year}-${month}`,
   );
-  if (
-    res &&
-    res.rowCount > 0 && // why res.rowCount > 0 when there is no actual data...
-    res.rowsOfObjects()[0]["average_morning_mood"]
-  ) {
-    return res.rowsOfObjects()[0];
+
+  // why res.rowCount > 0 when there is no actual data...
+  if (averages?.average_morning_mood) {
+    return averages;
   } else {
     return {
       average_sleep_duration: "N/A",
@@ -60,7 +54,7 @@ const _getMorningAverages = async ({ userId, week, month, year }) => {
 };
 
 const _getEveningAverages = async ({ userId, week, month, year }) => {
-  const res = await executeQuery(
+  const averages = await getQueryFirst(
     `SELECT
     AVG(sports_duration)::numeric(10,2) AS average_sports_duration,
     AVG(study_duration)::numeric(10,2) AS average_study_duration,
@@ -72,12 +66,10 @@ const _getEveningAverages = async ({ userId, week, month, year }) => {
     week ? "IYYY-IW" : "IYYY-MM",
     week ? `${year}-${week}` : `${year}-${month}`,
   );
-  if (
-    res &&
-    res.rowCount > 0 && // why res.rowCount > 0 when there is no actual data...
-    res.rowsOfObjects()[0]["average_evening_mood"]
-  ) {
-    return res.rowsOfObjects()[0];
+
+  // why res.rowCount > 0 when there is no actual data...
+  if (averages?.average_evening_mood) {
+    return averages;
   } else {
     return {
       average_sports_duration: "N/A",
@@ -89,6 +81,7 @@ const _getEveningAverages = async ({ userId, week, month, year }) => {
 };
 
 const getReportAverages = async (params) => {
+  // TODO validation earlier?
   if ((!params.week && !params.month) || (params.week && params.month)) {
     throw "Define week or month";
   }
@@ -128,48 +121,53 @@ const addEveningReport = async (report, userId) => {
 };
 
 const _getMorningReport = async (date, userId) => {
-  const res = await executeQuery(
+  const report = await getQueryFirst(
     `SELECT sleep_duration, sleep_quality, morning_mood
     FROM morning_reports
     WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
     userId,
     formattedDate(date),
   );
-  if (res && res.rowCount > 0) {
-    return res.rowsOfObjects()[0]; // TODO make sure only one exists
+  if (report) {
+    return report;
+  } else {
+    return { sleep_duration: "N/A", sleep_quality: "N/A", morning_mood: "N/A" };
   }
-  return { sleep_duration: "N/A", sleep_quality: "N/A", morning_mood: "N/A" };
 };
 
 const _getEveningReport = async (date, userId) => {
-  const res = await executeQuery(
+  const report = await getQueryFirst(
     `SELECT sports_duration, study_duration, eating_quality, evening_mood
     FROM evening_reports
     WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
     userId,
     formattedDate(date),
   );
-  if (res && res.rowCount > 0) {
-    return res.rowsOfObjects()[0]; // TODO make sure only one exists
+  if (report) {
+    return report;
+  } else {
+    return {
+      sports_duration: "N/A",
+      study_duration: "N/A",
+      eating_quality: "N/A",
+      evening_mood: "N/A",
+    };
   }
-  return {
-    sports_duration: "N/A",
-    study_duration: "N/A",
-    eating_quality: "N/A",
-    evening_mood: "N/A",
-  };
 };
 
 const getReport = async (date, userId) => {
-  // TODO other than the current week
   const morningReport = await _getMorningReport(date, userId);
   const eveningReport = await _getEveningReport(date, userId);
   const report = { ...morningReport, ...eveningReport };
+
+  // calculate the average mood based on the rersults
   // deno-lint-ignore camelcase
-  const avg_mood =
-    report.morning_mood === "N/A" || report.evening_mood === "N/A"
-      ? "N/A"
-      : ((report.morning_mood + report.evening_mood) / 2).toFixed(2);
+  let avg_mood;
+  if (report.morning_mood === "N/A" || report.evening_mood === "N/A") {
+    avg_mood = "N/A";
+  } else {
+    avg_mood = ((report.morning_mood + report.evening_mood) / 2).toFixed(2);
+  }
   return { ...report, avg_mood };
 };
 
