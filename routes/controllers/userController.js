@@ -7,13 +7,21 @@ const getAuthLogin = async ({ render }) => {
   render("authLogin.ejs");
 };
 
-const postAuthRegister = async ({ request, response }) => {
+const _getEmailPasswordVerification = async (request) => {
   const body = request.body();
   const params = await body.value;
 
-  const email = params.get("email");
-  const password = params.get("password");
-  const verification = params.get("verification");
+  return [
+    params.get("email"),
+    params.get("password"),
+    params.get("verification"),
+  ];
+};
+
+const postAuthRegister = async ({ request, response }) => {
+  const [email, password, verification] = await _getEmailPasswordVerification(
+    request,
+  );
 
   if (password !== verification) {
     response.body = "The entered passwords did not match";
@@ -28,11 +36,7 @@ const postAuthRegister = async ({ request, response }) => {
 };
 
 const postAuthLogin = async ({ request, response, session }) => {
-  const body = request.body();
-  const params = await body.value;
-
-  const email = params.get("email");
-  const password = params.get("password");
+  const [email, password, _] = await _getEmailPasswordVerification(request);
 
   // TODO validation
   [response.status, response.body] = await loginUser(email, password, session);
