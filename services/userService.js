@@ -19,14 +19,20 @@ const registerUser = async (email, password) => {
   return "Registration successful!";
 };
 
-const loginUser = async (email, password, session) => {
+const loginUser = async (email, password) => {
+  /* if successfull:
+   *    returns [true, userId]
+   * else
+   *    returns [false, null]
+   */
+
   // check if the email exists in the database
   const res = await executeQuery(
     "SELECT * FROM users WHERE email = $1;",
     email,
   );
   if (res.rowCount === 0) {
-    return [401, "Login failed"];
+    return [false, null];
   }
 
   // take the first row from the results
@@ -36,15 +42,9 @@ const loginUser = async (email, password, session) => {
 
   const passwordCorrect = await compare(password, passwordHash);
   if (!passwordCorrect) {
-    return [401, "Login failed"];
+    return [false, null];
   }
-
-  await session.set("authenticated", true);
-  await session.set("user", {
-    id: userObj.id,
-    email: userObj.email,
-  });
-  return [200, "Authentication successful!"];
+  return [true, userObj.id];
 };
 
 export { loginUser, registerUser };

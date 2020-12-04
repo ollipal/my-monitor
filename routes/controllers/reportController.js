@@ -1,10 +1,13 @@
 import * as reportService from "../../services/reportService.js";
+import { getUserId } from "../../services/sessionService.js";
 import { format, weekOfYear } from "../../deps.js";
 
-const getLanding = async ({ render }) => {
-  const todaysReport = await reportService.getReport(new Date());
+const getLanding = async ({ session, render }) => {
+  const userId = await getUserId(session);
+  const todaysReport = await reportService.getReport(new Date(), userId);
   const yesterdaysReport = await reportService.getReport(
     new Date(Date.now() - 24 * 60 * 60 * 1000),
+    userId,
   );
   const mood =
     todaysReport.avg_mood === "N/A" || yesterdaysReport.avg_mood === "N/A"
@@ -23,7 +26,8 @@ const getLanding = async ({ render }) => {
   });
 };
 
-const getBehaviourSummary = async ({ request, render }) => {
+const getBehaviourSummary = async ({ request, session, render }) => {
+  const userId = await getUserId(session);
   // get passed week and month, passed or current
   const searchParams = request.url.searchParams;
   const week = searchParams.has("week")
@@ -37,26 +41,28 @@ const getBehaviourSummary = async ({ request, render }) => {
   if (searchParams.has("month")) {
     // use month if was passed
     current = { number: month, type: "month" };
-    reportAvgs = await reportService.getReportAverages({ month });
+    reportAvgs = await reportService.getReportAverages({ month, userId });
   } else {
     // else use week, which defaults to the current week
     current = { number: week, type: "week" };
-    reportAvgs = await reportService.getReportAverages({ week });
+    reportAvgs = await reportService.getReportAverages({ week, userId });
   }
   render("behaviorSummary.ejs", { ...reportAvgs, week, month, current });
 };
 
-const postMorningform = async ({ request, response }) => {
+const postMorningform = async ({ request, response, session }) => {
+  const userId = await getUserId(session);
   const report = await request.body().value;
   // TODO validate report
-  await reportService.addMorningReport(report);
+  await reportService.addMorningReport(report, userId);
   response.redirect("/");
 };
 
-const postEveningform = async ({ request, response }) => {
+const postEveningform = async ({ request, response, session }) => {
+  const userId = await getUserId(session);
   const report = await request.body().value;
   // TODO validate report
-  await reportService.addEveningReport(report);
+  await reportService.addEveningReport(report, userId);
   response.redirect("/");
 };
 

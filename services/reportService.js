@@ -32,14 +32,15 @@ const getReports = async () => {
   return [...morningReports, ...eveningReports];
 };
 
-const _getMorningAverages = async ({ week, month, year }) => {
+const _getMorningAverages = async ({ userId, week, month, year }) => {
   const res = await executeQuery(
     `SELECT
     AVG(sleep_duration)::numeric(10,2) AS average_sleep_duration,
     AVG(sleep_quality)::numeric(10,2) AS average_sleep_quality,
     AVG(morning_mood)::numeric(10,2) AS average_morning_mood
     FROM morning_reports
-    WHERE to_char(date, $1) = $2;`,
+    WHERE user_id = $1 AND to_char(date, $2) = $3;`,
+    userId,
     week ? "IYYY-IW" : "IYYY-MM",
     week ? `${year}-${week}` : `${year}-${month}`,
   );
@@ -58,7 +59,7 @@ const _getMorningAverages = async ({ week, month, year }) => {
   }
 };
 
-const _getEveningAverages = async ({ week, month, year }) => {
+const _getEveningAverages = async ({ userId, week, month, year }) => {
   const res = await executeQuery(
     `SELECT
     AVG(sports_duration)::numeric(10,2) AS average_sports_duration,
@@ -66,7 +67,8 @@ const _getEveningAverages = async ({ week, month, year }) => {
     AVG(eating_quality)::numeric(10,2) AS average_eating_quality,
     AVG(evening_mood)::numeric(10,2) AS average_evening_mood
     FROM evening_reports
-    WHERE to_char(date, $1) = $2;`,
+    WHERE user_id = $1 AND to_char(date, $2) = $3;`,
+    userId,
     week ? "IYYY-IW" : "IYYY-MM",
     week ? `${year}-${week}` : `${year}-${month}`,
   );
@@ -98,12 +100,12 @@ const getReportAverages = async (params) => {
   return { ...morningAvg, ...eveningAvg };
 };
 
-const addMorningReport = async (report) => {
+const addMorningReport = async (report, userId) => {
   await executeQuery(
     `INSERT INTO morning_reports
     (user_id, date, sleep_duration, sleep_quality, morning_mood)
     VALUES ($1, $2, $3, $4, $5);`,
-    1, // TODO allow other users
+    userId,
     report.get("date"),
     report.get("sleep_duration"),
     report.get("sleep_quality"),
@@ -111,12 +113,12 @@ const addMorningReport = async (report) => {
   );
 };
 
-const addEveningReport = async (report) => {
+const addEveningReport = async (report, userId) => {
   await executeQuery(
     `INSERT INTO evening_reports
     (user_id, date, sports_duration, study_duration, eating_quality, evening_mood)
     VALUES ($1, $2, $3, $4, $5, $6);`,
-    1, // TODO allow other users
+    userId,
     report.get("date"),
     report.get("sports_duration"),
     report.get("study_duration"),
@@ -125,11 +127,12 @@ const addEveningReport = async (report) => {
   );
 };
 
-const _getMorningReport = async (date) => {
+const _getMorningReport = async (date, userId) => {
   const res = await executeQuery(
     `SELECT sleep_duration, sleep_quality, morning_mood
     FROM morning_reports
-    WHERE date_trunc('day', date) = $1;`,
+    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    userId,
     formattedDate(date),
   );
   if (res && res.rowCount > 0) {
@@ -138,11 +141,12 @@ const _getMorningReport = async (date) => {
   return { sleep_duration: "N/A", sleep_quality: "N/A", morning_mood: "N/A" };
 };
 
-const _getEveningReport = async (date) => {
+const _getEveningReport = async (date, userId) => {
   const res = await executeQuery(
     `SELECT sports_duration, study_duration, eating_quality, evening_mood
     FROM evening_reports
-    WHERE date_trunc('day', date) = $1;`,
+    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    userId,
     formattedDate(date),
   );
   if (res && res.rowCount > 0) {
@@ -156,10 +160,10 @@ const _getEveningReport = async (date) => {
   };
 };
 
-const getReport = async (date) => {
+const getReport = async (date, userId) => {
   // TODO other than the current week
-  const morningReport = await _getMorningReport(date);
-  const eveningReport = await _getEveningReport(date);
+  const morningReport = await _getMorningReport(date, userId);
+  const eveningReport = await _getEveningReport(date, userId);
   const report = { ...morningReport, ...eveningReport };
   // deno-lint-ignore camelcase
   const avg_mood =

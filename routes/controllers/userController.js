@@ -1,4 +1,5 @@
 import { loginUser, registerUser } from "../../services/userService.js";
+import { saveUserAuthentication } from "../../services/sessionService.js";
 
 const getAuthRegister = async ({ render }) => {
   render("authRegister.ejs");
@@ -39,7 +40,16 @@ const postAuthLogin = async ({ request, response, session }) => {
   const [email, password, _] = await _getEmailPasswordVerification(request);
 
   // TODO validation
-  [response.status, response.body] = await loginUser(email, password, session);
+  const [loginSuccessfull, userId] = await loginUser(email, password);
+  if (loginSuccessfull) {
+    await saveUserAuthentication(session, userId, email);
+    response.status = 401;
+    response.body = "authentication successfull";
+  } else {
+    response.status = 401;
+    response.body = "login failed";
+  }
+
   // TODO redirect
 };
 
