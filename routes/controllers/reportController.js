@@ -4,7 +4,7 @@ import { format, weekOfYear } from "../../deps.js";
 const getLanding = async ({ render }) => {
   const todaysReport = await reportService.getReport(new Date());
   const yesterdaysReport = await reportService.getReport(
-    new Date(Date.now() - 24 * 60 * 60 * 1000)
+    new Date(Date.now() - 24 * 60 * 60 * 1000),
   );
   const mood =
     todaysReport.avg_mood === "N/A" || yesterdaysReport.avg_mood === "N/A"
@@ -43,7 +43,7 @@ const getBehaviourSummary = async ({ request, render }) => {
     current = { number: week, type: "week" };
     reportAvgs = await reportService.getReportAverages({ week });
   }
-  render("summary.ejs", { ...reportAvgs, week, month, current });
+  render("behaviorSummary.ejs", { ...reportAvgs, week, month, current });
 };
 
 const postMorningform = async ({ request, response }) => {
@@ -84,7 +84,7 @@ export {
   getBehaviourSummary,
   getLanding,
   postEveningform,
+  postMonthform,
   postMorningform,
   postWeekform,
-  postMonthform,
 };

@@ -15,3 +15,4 @@ export {
   format,
   weekOfYear,
 } from "https://deno.land/std@0.67.0/datetime/mod.ts";
+export { compare, hash } from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";

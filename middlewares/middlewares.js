@@ -13,8 +13,26 @@ const requestLoggingMiddleware = async ({ request }, next) => {
   await next();
   const ms = Date.now() - start;
   console.log(
-    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`
+    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`,
   );
+};
+
+const limitAccessMiddleware = async ({ request, response, session }, next) => {
+  // allow access to login page without being authenticated
+  if (request.url.pathname === "/auth/login") {
+    await next();
+    // if requesting the landing page and not authenticated, redirect to login
+  } else if (
+    request.url.pathname === "/" &&
+    !(await session.get("authenticated"))
+  ) {
+    response.redirect("/auth/login");
+    // everything else should be accessed only if authenticated
+  } else if (await session.get("authenticated")) {
+    await next();
+  } else {
+    response.status = 401;
+  }
 };
 
 const serveStaticFilesMiddleware = async (context, next) => {
@@ -31,6 +49,7 @@ const serveStaticFilesMiddleware = async (context, next) => {
 
 export {
   errorLoggingMiddleware,
+  limitAccessMiddleware,
   requestLoggingMiddleware,
   serveStaticFilesMiddleware,
 };

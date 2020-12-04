@@ -10,13 +10,16 @@ const app = new Application();
 app.use(middleware.errorLoggingMiddleware);
 app.use(middleware.requestLoggingMiddleware);
 
-// setup serving static files
-app.use(middleware.serveStaticFilesMiddleware);
-
 // use session to manage user sessions
 const session = new Session({ framework: "oak" });
 await session.init();
 app.use(session.use()(session));
+
+// setup  session based authentication
+app.use(middleware.limitAccessMiddleware);
+
+// setup serving static files
+app.use(middleware.serveStaticFilesMiddleware);
 
 // handle .ejs templating
 const ejsEngine = engineFactory.getEjsEngine();

@@ -2,7 +2,7 @@
 
 case "$1" in
 run)
-    deno run --allow-read --allow-net app.js
+    deno run --allow-read --allow-net --unstable app.js
     ;;
 test)
     deno test
