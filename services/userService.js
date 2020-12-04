@@ -1,22 +1,38 @@
 import { executeQuery } from "../database/database.js";
 import { compare, hash } from "../deps.js";
 
-const registerUser = async (email, password) => {
-  const existingUsers = await executeQuery(
-    "SELECT * FROM users WHERE email = $1",
-    email,
-  );
-  if (existingUsers.rowCount > 0) {
-    return "The email is already reserved.";
-  }
+const _getUser = async (email) => {
+  /* if successfull:
+   *    returns user
+   * else
+   *    returns null
+   */
 
-  const passwordHash = await hash(password);
-  await executeQuery(
-    "INSERT INTO users (email, password) VALUES ($1, $2);",
-    email,
-    passwordHash,
-  );
-  return "Registration successful!";
+  const res = await executeQuery("SELECT * FROM users WHERE email = $1", email);
+  if (res?.rowCount > 0) {
+    return res.rowsOfObjects()[0];
+  } else {
+    return null;
+  }
+};
+
+const registerUser = async (email, password) => {
+  /* if successfull:
+   *    returns true
+   * else
+   *    returns false
+   */
+
+  if ((await _getUser(email)) === null) {
+    return false;
+  } else {
+    await executeQuery(
+      "INSERT INTO users (email, password) VALUES ($1, $2);",
+      email,
+      await hash(password),
+    );
+    return true;
+  }
 };
 
 const loginUser = async (email, password) => {
@@ -26,25 +42,12 @@ const loginUser = async (email, password) => {
    *    returns [false, null]
    */
 
-  // check if the email exists in the database
-  const res = await executeQuery(
-    "SELECT * FROM users WHERE email = $1;",
-    email,
-  );
-  if (res.rowCount === 0) {
+  const user = await _getUser(email);
+  if (user === null || !(await compare(password, user.password))) {
     return [false, null];
+  } else {
+    return [true, user.id];
   }
-
-  // take the first row from the results
-  const userObj = res.rowsOfObjects()[0];
-
-  const passwordHash = userObj.password;
-
-  const passwordCorrect = await compare(password, passwordHash);
-  if (!passwordCorrect) {
-    return [false, null];
-  }
-  return [true, userObj.id];
 };
 
 export { loginUser, registerUser };

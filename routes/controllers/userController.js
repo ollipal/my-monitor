@@ -30,8 +30,11 @@ const postAuthRegister = async ({ request, response }) => {
   }
 
   // TODO validation
-
-  response.body = await registerUser(email, password);
+  if (await registerUser(email, password)) {
+    response.body = "Registration successful!";
+  } else {
+    response.body = "The email is already reserved.";
+  }
 
   // TODO redirect
 };
@@ -43,7 +46,7 @@ const postAuthLogin = async ({ request, response, session }) => {
   const [loginSuccessfull, userId] = await loginUser(email, password);
   if (loginSuccessfull) {
     await saveUserAuthentication(session, userId, email);
-    response.status = 401;
+    response.status = 200;
     response.body = "authentication successfull";
   } else {
     response.status = 401;
