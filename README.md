@@ -39,7 +39,7 @@ CREATE TABLE evening_reports (
 );
 ```
 
-then create a `.env` file to project root, and add contents proper contents to:
+then create an `.env` file to project root, and add contents proper contents to:
 
 ```
 PG_USER=
@@ -59,6 +59,6 @@ After the database has been configured, you can run
 - linter with: `./app.sh lint`
 - test+formatter+linter with: `./app.sh pre-commit`
 
-(if bash script is not working, you can use
-`deno run --allow-read --allow-net app.js`
-to run the application, etc.)
+(if the bash script is not working, you can use
+`deno run --allow-read --allow-net --unstable app.js`
+direcltly to run the application, etc.)
