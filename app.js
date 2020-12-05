@@ -1,4 +1,4 @@
-import { Application } from "./deps.js";
+import { Application, oakCors } from "./deps.js";
 import { router } from "./routes/routes.js";
 import * as middleware from "./middlewares/middlewares.js";
 import { adapterFactory, engineFactory, Session, viewEngine } from "./deps.js";
@@ -15,6 +15,9 @@ const session = new Session({ framework: "oak" });
 await session.init();
 app.use(session.use()(session));
 
+// allow cross-origin requests to the api (all paths actually)
+app.use(oakCors());
+
 // setup  session based authentication
 app.use(middleware.limitAccessMiddleware);
 
@@ -27,7 +30,7 @@ const oakAdapter = adapterFactory.getOakAdapter();
 app.use(
   viewEngine(oakAdapter, ejsEngine, {
     viewRoot: "./views",
-  }),
+  })
 );
 
 // add routes
