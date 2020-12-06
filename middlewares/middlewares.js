@@ -19,7 +19,10 @@ const requestLoggingMiddleware = async ({ request }, next) => {
 
 const limitAccessMiddleware = async ({ request, response, session }, next) => {
   // allow access to login page without being authenticated
-  if (request.url.pathname === "/auth/login") {
+  if (
+    request.url.pathname === "/auth/login" ||
+    request.url.pathname.startsWith("/api/")
+  ) {
     await next();
     // if requesting the landing page and not authenticated, redirect to login
   } else if (

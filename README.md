@@ -62,3 +62,9 @@ After the database has been configured, you can run
 (if the bash script is not working, you can use
 `deno run --allow-read --allow-net --unstable app.js`
 direcltly to run the application, etc.)
+
+# Differences compared to the
+
+The website/api provides information on the week of the date, and not
+necessarily for the past 7 days. This was done because it makes more
+sense to me, and it is tecnically as harder/harder.

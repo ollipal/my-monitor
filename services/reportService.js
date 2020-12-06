@@ -1,9 +1,23 @@
+// deno-lint-ignore-file camelcase
 import {
   executeQuery,
   getQueryFirst,
   getQueryRows,
 } from "../database/database.js";
 import { format } from "../deps.js";
+
+const _EVENING_NA = {
+  average_sports_duration: "N/A",
+  average_study_duration: "N/A",
+  average_eating_quality: "N/A",
+  average_evening_mood: "N/A",
+};
+
+const _MORNING_NA = {
+  average_sleep_duration: "N/A",
+  average_sleep_quality: "N/A",
+  average_morning_mood: "N/A",
+};
 
 const formattedDate = (date) => {
   return format(date, "yyyy-MM-dd");
@@ -28,7 +42,12 @@ const getReports = async () => {
   return [...morningReports, ...eveningReports];
 };
 
-const _getMorningAverages = async ({ userId, week, month, year }) => {
+const _getUserMorningAveragesByWeekOrMonth = async ({
+  userId,
+  week,
+  month,
+  year,
+}) => {
   const averages = await getQueryFirst(
     `SELECT
     AVG(sleep_duration)::numeric(10,2) AS average_sleep_duration,
@@ -45,15 +64,16 @@ const _getMorningAverages = async ({ userId, week, month, year }) => {
   if (averages?.average_morning_mood) {
     return averages;
   } else {
-    return {
-      average_sleep_duration: "N/A",
-      average_sleep_quality: "N/A",
-      average_morning_mood: "N/A",
-    };
+    return _MORNING_NA;
   }
 };
 
-const _getEveningAverages = async ({ userId, week, month, year }) => {
+const _getUserEveningAveragesByWeekOrMonth = async ({
+  userId,
+  week,
+  month,
+  year,
+}) => {
   const averages = await getQueryFirst(
     `SELECT
     AVG(sports_duration)::numeric(10,2) AS average_sports_duration,
@@ -71,25 +91,131 @@ const _getEveningAverages = async ({ userId, week, month, year }) => {
   if (averages?.average_evening_mood) {
     return averages;
   } else {
-    return {
-      average_sports_duration: "N/A",
-      average_study_duration: "N/A",
-      average_eating_quality: "N/A",
-      average_evening_mood: "N/A",
-    };
+    return _EVENING_NA;
   }
 };
 
-const getReportAverages = async (params) => {
+const getUserReportAveragesByWeekOrMonth = async ({ userId, week, month }) => {
   // TODO validation earlier?
-  if ((!params.week && !params.month) || (params.week && params.month)) {
-    throw "Define week or month";
+  if ((!week && !month) || (week && month)) {
+    throw "Define week or month (only one)";
   }
+
   // supports the current year only
   const year = format(new Date(), "yyyy");
-  const morningAvg = await _getMorningAverages({ ...params, year });
-  const eveningAvg = await _getEveningAverages({ ...params, year });
+  const morningAvg = await _getUserMorningAveragesByWeekOrMonth({
+    userId,
+    week,
+    month,
+    year,
+  });
+  const eveningAvg = await _getUserEveningAveragesByWeekOrMonth({
+    userId,
+    week,
+    month,
+    year,
+  });
 
+  return { ...morningAvg, ...eveningAvg };
+};
+
+const makeNumeric = (obj) => {
+  for (const key of Object.keys(obj)) {
+    obj[key] = Number(obj[key]);
+  }
+  return obj;
+};
+
+const _getAllMorningAveragesPast7days = async () => {
+  const averages = await getQueryFirst(
+    `SELECT
+    AVG(sleep_duration)::numeric(10,2) AS average_sleep_duration,
+    AVG(sleep_quality)::numeric(10,2) AS average_sleep_quality,
+    AVG(morning_mood)::numeric(10,2) AS average_morning_mood
+    FROM morning_reports
+    WHERE date BETWEEN $1 AND $2`,
+    new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    new Date(),
+  );
+
+  // why res.rowCount > 0 when there is no actual data...
+  if (averages?.average_morning_mood) {
+    return makeNumeric(averages);
+  } else {
+    return _MORNING_NA;
+  }
+};
+
+const _getAllEveningAveragesPast7days = async () => {
+  const averages = await getQueryFirst(
+    `SELECT
+    AVG(sports_duration)::numeric(10,2) AS average_sports_duration,
+    AVG(study_duration)::numeric(10,2) AS average_study_duration,
+    AVG(eating_quality)::numeric(10,2) AS average_eating_quality,
+    AVG(evening_mood)::numeric(10,2) AS average_evening_mood
+    FROM evening_reports
+    WHERE date BETWEEN $1 AND $2`,
+    new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    new Date(),
+  );
+
+  // why res.rowCount > 0 when there is no actual data...
+  if (averages?.average_evening_mood) {
+    return makeNumeric(averages);
+  } else {
+    return _EVENING_NA;
+  }
+};
+
+const getAllReportAveragesPast7days = async () => {
+  const morningAvg = await _getAllMorningAveragesPast7days();
+  const eveningAvg = await _getAllEveningAveragesPast7days();
+  return { ...morningAvg, ...eveningAvg };
+};
+
+const _getAllMorningAveragesByDate = async (date) => {
+  const averages = await getQueryFirst(
+    `SELECT
+    AVG(sleep_duration)::numeric(10,2) AS average_sleep_duration,
+    AVG(sleep_quality)::numeric(10,2) AS average_sleep_quality,
+    AVG(morning_mood)::numeric(10,2) AS average_morning_mood
+    FROM morning_reports
+    WHERE to_char(date, 'IYYY-MM-DD') = $1;`,
+    date,
+  );
+
+  // why res.rowCount > 0 when there is no actual data...
+  if (averages?.average_morning_mood) {
+    return makeNumeric(averages);
+  } else {
+    return _MORNING_NA;
+  }
+};
+
+const _getAllEveningAveragesByDate = async (date) => {
+  const averages = await getQueryFirst(
+    `SELECT
+    AVG(sports_duration)::numeric(10,2) AS average_sports_duration,
+    AVG(study_duration)::numeric(10,2) AS average_study_duration,
+    AVG(eating_quality)::numeric(10,2) AS average_eating_quality,
+    AVG(evening_mood)::numeric(10,2) AS average_evening_mood
+    FROM evening_reports
+    WHERE to_char(date, 'IYYY-MM-DD') = $1;`,
+    date,
+  );
+
+  // why res.rowCount > 0 when there is no actual data...
+  if (averages?.average_evening_mood) {
+    return makeNumeric(averages);
+  } else {
+    return _EVENING_NA;
+  }
+};
+
+const getAllReportAveragesByDate = async ({ year, month, day }) => {
+  const date = format(new Date(year, month - 1, day), "yyyy-MM-dd");
+  const morningAvg = await _getAllMorningAveragesByDate(date);
+  const eveningAvg = await _getAllEveningAveragesByDate(date);
   return { ...morningAvg, ...eveningAvg };
 };
 
@@ -161,7 +287,6 @@ const getReport = async (date, userId) => {
   const report = { ...morningReport, ...eveningReport };
 
   // calculate the average mood based on the rersults
-  // deno-lint-ignore camelcase
   let avg_mood;
   if (report.morning_mood === "N/A" || report.evening_mood === "N/A") {
     avg_mood = "N/A";
@@ -175,7 +300,9 @@ export {
   addEveningReport,
   addMorningReport,
   formattedDate,
+  getAllReportAveragesByDate,
+  getAllReportAveragesPast7days,
   getReport,
-  getReportAverages,
   getReports,
+  getUserReportAveragesByWeekOrMonth,
 };

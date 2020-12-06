@@ -3,6 +3,8 @@ import { router } from "./routes/routes.js";
 import * as middleware from "./middlewares/middlewares.js";
 import { adapterFactory, engineFactory, Session, viewEngine } from "./deps.js";
 
+const port = 7777;
+
 // init oak application
 const app = new Application();
 
@@ -30,14 +32,15 @@ const oakAdapter = adapterFactory.getOakAdapter();
 app.use(
   viewEngine(oakAdapter, ejsEngine, {
     viewRoot: "./views",
-  })
+  }),
 );
 
 // add routes
 app.use(router.routes());
 
 // start serving!
-app.listen({ port: 7777 });
+console.log(`serving at port ${port}`);
+app.listen({ port });
 
 // export for app for testing
 export default app;

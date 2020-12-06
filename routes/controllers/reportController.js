@@ -41,11 +41,17 @@ const getBehaviourSummary = async ({ request, session, render }) => {
   if (searchParams.has("month")) {
     // use month if was passed
     current = { number: month, type: "month" };
-    reportAvgs = await reportService.getReportAverages({ month, userId });
+    reportAvgs = await reportService.getUserReportAveragesByWeekOrMonth({
+      month,
+      userId,
+    });
   } else {
     // else use week, which defaults to the current week
     current = { number: week, type: "week" };
-    reportAvgs = await reportService.getReportAverages({ week, userId });
+    reportAvgs = await reportService.getUserReportAveragesByWeekOrMonth({
+      week,
+      userId,
+    });
   }
   render("behaviorSummary.ejs", { ...reportAvgs, week, month, current });
 };

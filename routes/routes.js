@@ -13,7 +13,7 @@ import {
   postMorningform,
   postWeekform,
 } from "./controllers/reportController.js";
-import * as reportApi from "./apis/reportApi.js";
+import { getApiSummary, getApiSummaryYearMonthDay } from "./apis/reportApi.js";
 
 const router = new Router();
 
@@ -27,6 +27,8 @@ router
   .post("/auth/login", postAuthLogin)
   .get("/behavior/summary", getBehaviourSummary)
   .post("/behavior/summary/weekform", postWeekform)
-  .post("/behavior/summary/monthform", postMonthform);
+  .post("/behavior/summary/monthform", postMonthform)
+  .get("/api/summary", getApiSummary)
+  .get("/api/summary/:year/:month/:day", getApiSummaryYearMonthDay);
 
 export { router };
