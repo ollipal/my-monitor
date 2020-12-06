@@ -13,7 +13,7 @@ const requestLoggingMiddleware = async ({ request }, next) => {
   await next();
   const ms = Date.now() - start;
   console.log(
-    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`
+    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`,
   );
 };
 

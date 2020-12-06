@@ -21,7 +21,7 @@ const _getEmailPasswordVerification = async (request) => {
 
 const postAuthRegister = async ({ request, response }) => {
   const [email, password, verification] = await _getEmailPasswordVerification(
-    request
+    request,
   );
 
   if (password !== verification) {

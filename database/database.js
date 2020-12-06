@@ -1,13 +1,12 @@
-import { Client, config } from "../deps.js";
-const envConfig = config();
+import { Client } from "../deps.js";
 
 const _getClient = () => {
   return new Client({
-    user: envConfig.PG_USER,
-    password: envConfig.PG_PASSWORD,
-    hostname: envConfig.PG_HOSTNAME,
-    port: Number(envConfig.PG_PORT),
-    database: envConfig.PG_DB_NAME,
+    user: Deno.env.get("PG_USER"),
+    password: Deno.env.get("PG_PASSWORD"),
+    hostname: Deno.env.get("PG_HOSTNAME"),
+    port: Number(Deno.env.get("PG_PORT")),
+    database: Deno.env.get("PG_DB_NAME"),
   });
 };
 

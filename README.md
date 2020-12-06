@@ -39,7 +39,8 @@ CREATE TABLE evening_reports (
 );
 ```
 
-then create an `.env` file to project root, and add contents proper contents to:
+then create an `.env` file to `/config`, and add these variables
+with proper values to it:
 
 ```
 PG_USER=
@@ -48,6 +49,8 @@ PG_HOSTNAME=
 PG_PORT=
 PG_DB_NAME=
 ```
+
+(the same values can be found from `/config/.env.examples`)
 
 ## Running the application
 
@@ -60,7 +63,7 @@ After the database has been configured, you can run
 - test+formatter+linter with: `./app.sh pre-commit`
 
 (if the bash script is not working, you can use
-`deno run --allow-read --allow-net --unstable app.js`
+`deno run --allow-read --allow-net --unstable --allow-env app.js`
 direcltly to run the application, etc.)
 
 # Differences compared to the
