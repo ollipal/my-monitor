@@ -21,7 +21,7 @@ const _getEmailPasswordVerification = async (request) => {
 
 const postAuthRegister = async ({ request, response }) => {
   const [email, password, verification] = await _getEmailPasswordVerification(
-    request,
+    request
   );
 
   if (password !== verification) {
@@ -31,7 +31,7 @@ const postAuthRegister = async ({ request, response }) => {
 
   // TODO validation
   if (await registerUser(email, password)) {
-    response.body = "Registration successful!";
+    response.redirect("/auth/login");
   } else {
     response.body = "The email is already reserved.";
   }
@@ -46,8 +46,7 @@ const postAuthLogin = async ({ request, response, session }) => {
   const [loginSuccessfull, userId] = await loginUser(email, password);
   if (loginSuccessfull) {
     await saveUserAuthentication(session, userId, email);
-    response.status = 200;
-    response.body = "authentication successfull";
+    response.redirect("/");
   } else {
     response.status = 401;
     response.body = "login failed";

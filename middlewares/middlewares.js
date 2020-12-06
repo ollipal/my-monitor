@@ -13,28 +13,27 @@ const requestLoggingMiddleware = async ({ request }, next) => {
   await next();
   const ms = Date.now() - start;
   console.log(
-    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`,
+    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`
   );
 };
 
 const limitAccessMiddleware = async ({ request, response, session }, next) => {
-  // allow access to login page without being authenticated
+  /*
+   * allow access only if:
+   * - authenticated
+   * - accessing "/auth/register" or "/auth/login"
+   * - accessing the api
+   * else redirect to "/auth/register"
+   */
   if (
+    (await session.get("authenticated")) ||
+    request.url.pathname === "/auth/register" ||
     request.url.pathname === "/auth/login" ||
     request.url.pathname.startsWith("/api/")
   ) {
     await next();
-    // if requesting the landing page and not authenticated, redirect to login
-  } else if (
-    request.url.pathname === "/" &&
-    !(await session.get("authenticated"))
-  ) {
-    response.redirect("/auth/login");
-    // everything else should be accessed only if authenticated
-  } else if (await session.get("authenticated")) {
-    await next();
   } else {
-    response.status = 401;
+    response.redirect("/auth/register");
   }
 };
 
