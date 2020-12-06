@@ -3,6 +3,7 @@ import {
   getAuthLogin,
   getAuthRegister,
   postAuthLogin,
+  postAuthLogout,
   postAuthRegister,
 } from "./controllers/userController.js";
 import {
@@ -25,6 +26,7 @@ router
   .post("/auth/register", postAuthRegister)
   .get("/auth/login", getAuthLogin)
   .post("/auth/login", postAuthLogin)
+  .post("/auth/logout", postAuthLogout)
   .get("/behavior/summary", getBehaviourSummary)
   .post("/behavior/summary/weekform", postWeekform)
   .post("/behavior/summary/monthform", postMonthform)

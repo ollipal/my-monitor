@@ -1,4 +1,7 @@
 <%- include('./partials/header.ejs') %>
+<form action="/auth/logout" method="POST">
+    <input type="submit" value="Log out" /><br>
+</form>
 <h1>my-monitor</h1>
 <ul>
     <% reports.forEach(report => { %>

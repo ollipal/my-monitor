@@ -34,8 +34,8 @@
     - If the user types in an invalid email or password, a message "Invalid email or password" is shown on the login page.
       - Form fields are not populated
   - Authentication functionality is structured into logical parts (e.g. authController.js or part of userController.js, ...). ✅
-  - Application has a logout button that allows the user to logout (logging out effectively means clearing the session)
-    - Logout functionality is at /auth/logout
+  - Application has a logout button that allows the user to logout (logging out effectively means clearing the session) ✅
+    - Logout functionality is at /auth/logout ✅
 
 - **Middleware**
 

@@ -1,5 +1,8 @@
 import { loginUser, registerUser } from "../../services/userService.js";
-import { saveUserAuthentication } from "../../services/sessionService.js";
+import {
+  forgetUserAuthentication,
+  saveUserAuthentication,
+} from "../../services/sessionService.js";
 
 const getAuthRegister = async ({ render }) => {
   render("authRegister.ejs");
@@ -35,9 +38,8 @@ const postAuthRegister = async ({ request, response }) => {
     response.redirect("/auth/login");
   } else {
     response.body = "The email is already reserved.";
+    // TODO redirect
   }
-
-  // TODO redirect
 };
 
 const postAuthLogin = async ({ request, response, session }) => {
@@ -51,9 +53,19 @@ const postAuthLogin = async ({ request, response, session }) => {
   } else {
     response.status = 401;
     response.body = "login failed";
+    // TODO redirect
   }
-
-  // TODO redirect
 };
 
-export { getAuthLogin, getAuthRegister, postAuthLogin, postAuthRegister };
+const postAuthLogout = async ({ response, session }) => {
+  await forgetUserAuthentication(session);
+  response.redirect("/auth/login");
+};
+
+export {
+  getAuthLogin,
+  getAuthRegister,
+  postAuthLogin,
+  postAuthLogout,
+  postAuthRegister,
+};
