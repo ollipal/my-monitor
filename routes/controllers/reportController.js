@@ -60,6 +60,7 @@ const postMorningform = async ({ request, response, session }) => {
   const userId = await getUserId(session);
   const report = await request.body().value;
   // TODO validate report
+  // TODO validate date is yyy-MM-dd
   await reportService.addMorningReport(report, userId);
   response.redirect("/");
 };

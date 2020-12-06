@@ -220,6 +220,14 @@ const getAllReportAveragesByDate = async ({ year, month, day }) => {
 };
 
 const addMorningReport = async (report, userId) => {
+  // delete old (might not exist)
+  await executeQuery(
+    `DELETE FROM morning_reports
+    WHERE user_id = $1 AND to_char(date, 'IYYY-MM-DD') = $2;`,
+    userId,
+    report.get("date"),
+  );
+  // add new
   await executeQuery(
     `INSERT INTO morning_reports
     (user_id, date, sleep_duration, sleep_quality, morning_mood)
@@ -233,6 +241,14 @@ const addMorningReport = async (report, userId) => {
 };
 
 const addEveningReport = async (report, userId) => {
+  // delete old (might not exist)
+  await executeQuery(
+    `DELETE FROM evening_reports
+    WHERE user_id = $1 AND to_char(date, 'IYYY-MM-DD') = $2;`,
+    userId,
+    report.get("date"),
+  );
+  // add new
   await executeQuery(
     `INSERT INTO evening_reports
     (user_id, date, sports_duration, study_duration, eating_quality, evening_mood)

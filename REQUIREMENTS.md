@@ -29,7 +29,7 @@
   - Application uses session-based authentication ✅
   - Login form is accessible at /auth/login ✅
     - Login form asks for email and password ✅
-    - Login uses labels to clarify the purpose of the input fields
+    - Login uses labels to clarify the purpose of the input fields ✅
     - Login form has a link to the registration form ✅
     - If the user types in an invalid email or password, a message "Invalid email or password" is shown on the login page.
       - Form fields are not populated
