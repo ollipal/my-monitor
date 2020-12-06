@@ -61,13 +61,24 @@ After the database has been configured, you can run
 - formatter with: `./app.sh format`
 - linter with: `./app.sh lint`
 - test+formatter+linter with: `./app.sh pre-commit`
+- requirements met with: `./app.sh requirements`
 
 (if the bash script is not working, you can use
 `deno run --allow-read --allow-net --unstable --allow-env app.js`
-direcltly to run the application, etc.)
+directly to run the application. You can find other commands
+for running tests etc. from `app.sh`, if the bash file is not working)
 
 # Differences compared to the
 
 The website/api provides information on the week of the date, and not
 necessarily for the past 7 days. This was done because it makes more
 sense to me, and it is tecnically as harder/harder.
+
+# Checklist
+
+The checklist for the project requirements can be found at `REQUIREMENTS.md`
+
+Each requirement that has been met is marked with a '✅' symbol.
+
+The current ratio of [requirements met]/[total requirements] can be printed with
+`./app.sh requirements`

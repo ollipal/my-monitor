@@ -18,7 +18,10 @@ pre-commit)
     echo "formatting:" && ./app.sh format
     echo "linting:" && ./app.sh lint
     ;;
+requirements)
+    echo "Requirements met: $(grep "✅" REQUIREMENTS.md | wc -l)/$(grep " - " REQUIREMENTS.md | wc -l)"
+    ;;
 *)
-    echo $"Usage: $0 [run|test|format|lint|pre-commit]"
+    echo $"Usage: $0 [run|test|format|lint|pre-commit|requirements]"
     ;;
 esac
