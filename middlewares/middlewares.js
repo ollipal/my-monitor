@@ -1,4 +1,5 @@
-import { send } from "../deps.js";
+import { format, send } from "../deps.js";
+import { getUserId } from "../services/sessionService.js";
 
 const errorLoggingMiddleware = async (context, next) => {
   try {
@@ -10,13 +11,29 @@ const errorLoggingMiddleware = async (context, next) => {
 
 const TESTING = Deno.env.get("TESTING");
 
-const requestLoggingMiddleware = async ({ request }, next) => {
+const requestLoggingMiddleware = async ({ request, session }, next) => {
   const start = Date.now();
   await next();
-  const ms = Date.now() - start;
+
+  // log only if not running tests
   if (!TESTING) {
+    const ms = Date.now() - start;
+    const userId = await getUserId(session);
     console.log(
-      `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`,
+      `%c${
+        userId ? userId : "anonymous"
+      }: %c${request.method} %c${request.url.pathname}${request.url.search} %c${
+        format(
+          new Date(),
+          "yyyy-MM-dd hh:mm",
+        )
+      } %c- %c${ms} ms`,
+      "color:grey",
+      "color:cyan",
+      "color:magenta",
+      "color:yellow",
+      "color:white",
+      "color:red",
     );
   }
 };
@@ -25,14 +42,13 @@ const limitAccessMiddleware = async ({ request, response, session }, next) => {
   /*
    * allow access only if:
    * - authenticated
-   * - accessing "/auth/register" or "/auth/login"
-   * - accessing the api
+   * - accessing "/auth/"
+   * - accessing "/api/"
    * else redirect to "/auth/register"
    */
   if (
     (await session.get("authenticated")) ||
-    request.url.pathname === "/auth/register" ||
-    request.url.pathname === "/auth/login" ||
+    request.url.pathname.startsWith("/auth/") ||
     request.url.pathname.startsWith("/api/")
   ) {
     await next();

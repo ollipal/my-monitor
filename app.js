@@ -8,14 +8,16 @@ const port = 7777;
 // init oak application
 const app = new Application();
 
-// start logging requests and errors
+// start logging errors
 app.use(middleware.errorLoggingMiddleware);
-app.use(middleware.requestLoggingMiddleware);
 
 // use session to manage user sessions
 const session = new Session({ framework: "oak" });
 await session.init();
 app.use(session.use()(session));
+
+// start logging requests
+app.use(middleware.requestLoggingMiddleware);
 
 // allow cross-origin requests to the api (all paths actually)
 app.use(oakCors());

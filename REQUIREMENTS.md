@@ -2,7 +2,7 @@
 
 - **Application structure**
 
-  - Application divided into logical folders (akin to the part on Structuring Web Applications)
+  - Application divided into logical folders (akin to the part on Structuring Web Applications) ✅
   - Dependencies exported from deps.js ✅
   - Project launched from app.js, which is in the root folder ✅
   - Configurations in a separate folder (e.g. config) ✅
@@ -40,14 +40,14 @@
 - **Middleware**
 
   - The application has middleware that logs all the errors that occurred within the application ✅
-  - The application has middleware that logs all requests made to the application
-    - Logged information contains current time, request method, requested path, and user id (or anonymous if not authenticated)
-  - The application has middleware that controls access to the application
+  - The application has middleware that logs all requests made to the application ✅
+    - Logged information contains current time, request method, requested path, and user id (or anonymous if not authenticated) ✅
+  - The application has middleware that controls access to the application ✅
     - Landing page at / is accessible to all ✅
     - Paths starting with /api are accessible to all ✅
     - Paths starting with /auth are accessible to all ✅
-    - Other paths require that the user is authenticated
-      - Non-authenticated users are redirected to the login form at /auth/login
+    - Other paths require that the user is authenticated ✅
+      - Non-authenticated users are redirected to the login form at /auth/login ✅
   - Application has middleware that controls access to static files
     - Static files are placed under /static
   - Middleware functionality is structured into logical parts (e.g. separate middlewares folder). ✅
