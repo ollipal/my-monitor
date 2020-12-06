@@ -16,7 +16,7 @@
     - Emails must be unique (same email cannot be stored twice in - the database) ✅
   - Users can register to the application ✅
   - Registration form is accessible at /auth/registration ✅
-    - Registration uses labels to clarify the purpose of the input fields
+    - Registration uses labels to clarify the purpose of the input fields ✅
     - Registration form is validated on the server
       - Email must be an authentic email
       - Password must contain at least 4 characters
