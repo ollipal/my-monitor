@@ -16,6 +16,11 @@ export {
 } from "https://deno.land/std@0.67.0/datetime/mod.ts";
 export { compare, hash } from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 export { oakCors } from "https://deno.land/x/cors@v1.2.1/mod.ts";
+export { superoak } from "https://deno.land/x/superoak@2.3.1/mod.ts";
+export {
+  assertEquals,
+  assertThrowsAsync,
+} from "https://deno.land/std@0.78.0/testing/asserts.ts";
 
 // export the environmental values
 import { config } from "https://deno.land/x/dotenv@v1.0.1/mod.ts";

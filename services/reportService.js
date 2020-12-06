@@ -98,7 +98,7 @@ const _getUserEveningAveragesByWeekOrMonth = async ({
 const getUserReportAveragesByWeekOrMonth = async ({ userId, week, month }) => {
   // TODO validation earlier?
   if ((!week && !month) || (week && month)) {
-    throw "Define week or month (only one)";
+    throw Error("Define week or month (only one)");
   }
 
   // supports the current year only

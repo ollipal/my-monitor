@@ -8,13 +8,17 @@ const errorLoggingMiddleware = async (context, next) => {
   }
 };
 
+const TESTING = Deno.env.get("TESTING");
+
 const requestLoggingMiddleware = async ({ request }, next) => {
   const start = Date.now();
   await next();
   const ms = Date.now() - start;
-  console.log(
-    `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`,
-  );
+  if (!TESTING) {
+    console.log(
+      `${request.method} ${request.url.pathname}${request.url.search} - ${ms} ms`,
+    );
+  }
 };
 
 const limitAccessMiddleware = async ({ request, response, session }, next) => {
@@ -33,7 +37,7 @@ const limitAccessMiddleware = async ({ request, response, session }, next) => {
   ) {
     await next();
   } else {
-    response.redirect("/auth/register");
+    response.redirect("/auth/login");
   }
 };
 

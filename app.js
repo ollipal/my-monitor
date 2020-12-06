@@ -38,9 +38,11 @@ app.use(
 // add routes
 app.use(router.routes());
 
-// start serving!
-console.log(`serving at port ${port}`);
-app.listen({ port });
+if (!Deno.env.get("TESTING")) {
+  // start serving
+  console.log(`serving at port ${port}`);
+  app.listen({ port });
+}
 
 // export for app for testing
 export default app;

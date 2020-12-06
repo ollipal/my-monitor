@@ -4,6 +4,7 @@ import { saveUserAuthentication } from "../../services/sessionService.js";
 const getAuthRegister = async ({ render }) => {
   render("authRegister.ejs");
 };
+
 const getAuthLogin = async ({ render }) => {
   render("authLogin.ejs");
 };

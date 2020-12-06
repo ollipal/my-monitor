@@ -5,7 +5,7 @@ run)
     deno run --allow-read --allow-net --allow-env --unstable app.js
     ;;
 test)
-    deno test
+    TESTING=1 deno test --allow-read --allow-net --allow-env --unstable
     ;;
 format)
     deno fmt
