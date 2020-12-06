@@ -48,6 +48,9 @@ const _getUserMorningAveragesByWeekOrMonth = async ({
   month,
   year,
 }) => {
+  if ((!week && !month) || (week && month)) {
+    throw Error("Define week or month (only one)");
+  }
   const averages = await getQueryFirst(
     `SELECT
     AVG(sleep_duration)::numeric(10,2) AS average_sleep_duration,
@@ -74,6 +77,9 @@ const _getUserEveningAveragesByWeekOrMonth = async ({
   month,
   year,
 }) => {
+  if ((!week && !month) || (week && month)) {
+    throw Error("Define week or month (only one)");
+  }
   const averages = await getQueryFirst(
     `SELECT
     AVG(sports_duration)::numeric(10,2) AS average_sports_duration,
@@ -95,23 +101,33 @@ const _getUserEveningAveragesByWeekOrMonth = async ({
   }
 };
 
-const getUserReportAveragesByWeekOrMonth = async ({ userId, week, month }) => {
-  // TODO validation earlier?
-  if ((!week && !month) || (week && month)) {
-    throw Error("Define week or month (only one)");
-  }
-
-  // supports the current year only
-  const year = format(new Date(), "yyyy");
+const getUserReportAveragesByWeek = async ({ userId, week, year }) => {
   const morningAvg = await _getUserMorningAveragesByWeekOrMonth({
     userId,
     week,
-    month,
+    month: null,
     year,
   });
   const eveningAvg = await _getUserEveningAveragesByWeekOrMonth({
     userId,
     week,
+    month: null,
+    year,
+  });
+
+  return { ...morningAvg, ...eveningAvg };
+};
+
+const getUserReportAveragesByMonth = async ({ userId, month, year }) => {
+  const morningAvg = await _getUserMorningAveragesByWeekOrMonth({
+    userId,
+    week: null,
+    month,
+    year,
+  });
+  const eveningAvg = await _getUserEveningAveragesByWeekOrMonth({
+    userId,
+    week: null,
     month,
     year,
   });
@@ -313,6 +329,10 @@ const getReport = async (date, userId) => {
 };
 
 export {
+  // only for testing
+  _getUserEveningAveragesByWeekOrMonth,
+  _getUserMorningAveragesByWeekOrMonth,
+  // normal exports
   addEveningReport,
   addMorningReport,
   formattedDate,
@@ -320,5 +340,6 @@ export {
   getAllReportAveragesPast7days,
   getReport,
   getReports,
-  getUserReportAveragesByWeekOrMonth,
+  getUserReportAveragesByMonth,
+  getUserReportAveragesByWeek,
 };

@@ -1,5 +1,10 @@
 import * as reportService from "../../services/reportService.js";
-import { getUserId } from "../../services/sessionService.js";
+import {
+  getUserId,
+  getWeekMonth,
+  saveMonth,
+  saveWeek,
+} from "../../services/sessionService.js";
 import { format, weekOfYear } from "../../deps.js";
 
 const getLanding = async ({ session, render }) => {
@@ -26,34 +31,31 @@ const getLanding = async ({ session, render }) => {
   });
 };
 
-const getBehaviourSummary = async ({ request, session, render }) => {
+const getBehaviourSummary = async ({ session, render }) => {
   const userId = await getUserId(session);
-  // get passed week and month, passed or current
-  const searchParams = request.url.searchParams;
-  const week = searchParams.has("week")
-    ? searchParams.get("week")
-    : weekOfYear(new Date());
-  const month = searchParams.has("month")
-    ? searchParams.get("month")
-    : format(new Date(), "MM");
-
-  let current, reportAvgs;
-  if (searchParams.has("month")) {
-    // use month if was passed
-    current = { number: month, type: "month" };
-    reportAvgs = await reportService.getUserReportAveragesByWeekOrMonth({
-      month,
-      userId,
-    });
-  } else {
-    // else use week, which defaults to the current week
-    current = { number: week, type: "week" };
-    reportAvgs = await reportService.getUserReportAveragesByWeekOrMonth({
-      week,
-      userId,
-    });
+  // get saved week/month or use current
+  let [week, month] = await getWeekMonth(session);
+  if (!week) {
+    week = weekOfYear(new Date());
   }
-  render("behaviorSummary.ejs", { ...reportAvgs, week, month, current });
+  if (!month) {
+    month = Number(format(new Date(), "MM"));
+  }
+  // supports the current year only
+  const year = format(new Date(), "yyyy");
+
+  const weekAvgs = await reportService.getUserReportAveragesByWeek({
+    userId,
+    week,
+    year,
+  });
+  const monthAvgs = await reportService.getUserReportAveragesByMonth({
+    userId,
+    month,
+    year,
+  });
+
+  render("behaviorSummary.ejs", { weekAvgs, monthAvgs, week, month });
 };
 
 const postMorningform = async ({ request, response, session }) => {
@@ -73,24 +75,18 @@ const postEveningform = async ({ request, response, session }) => {
   response.redirect("/");
 };
 
-const postWeekform = async ({ request, response }) => {
-  const week = (await request.body().value).get("week");
+const postWeekform = async ({ request, response, session }) => {
   // TODO validate week
-  if (week) {
-    response.redirect(`/behavior/summary?week=${week}`);
-  } else {
-    response.redirect("/behavior/summary");
-  }
+  const week = (await request.body().value).get("week");
+  await saveWeek(session, week);
+  response.redirect("/behavior/summary");
 };
 
-const postMonthform = async ({ request, response }) => {
-  const month = (await request.body().value).get("month");
+const postMonthform = async ({ request, response, session }) => {
   // TODO validate month
-  if (month) {
-    response.redirect(`/behavior/summary?month=${month}`);
-  } else {
-    response.redirect("/behavior/summary");
-  }
+  const month = (await request.body().value).get("month");
+  await saveMonth(session, month);
+  response.redirect("/behavior/summary");
 };
 
 export {

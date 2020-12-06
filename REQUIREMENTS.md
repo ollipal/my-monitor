@@ -99,28 +99,28 @@
 - **Summarization**
 
   - Summary functionality is available under the path /behavior/summary ✅
-  - Main summary page contains the following statistics, by default shown for the last week and month
-    - Weekly average (by default from last week)
-      - Average sleep duration
-      - Average time spent on sports and exercise
-      - Average time spent studying
-      - Average sleep quality
-      - Average generic mood
-    - Monthly average (by default from last month)
-      - Average sleep duration
-      - Average time spent on sports and exercise
-      - Average time spent studying
-      - Average sleep quality
-      - Average generic mood
-  - Summary page has a selector for week and month. Check input type="week" and input type="month".
-    - When the week is changed, the weekly average will be shown for the given week.
-    - When the month is changed, the monthly average will be shown for the given month.
-    - If no data for the given week exists, the weekly summary shows text suggesting that no data for the given week exists.
-    - If no data for the given month exists, the monthly summary shows text suggesting that no data for the given month exists.
-  - Summary data / averages calculated within the database
-    - When doing weekly reporting, the weekly averages are calculated in the database
-    - When doing monthly reporting, the monthly averages are calculated in the database
-  - Summarization page contains statistics only for the current user.
+  - Main summary page contains the following statistics, by default shown for the last week and month ✅
+    - Weekly average (by default from last week) ✅
+      - Average sleep duration ✅
+      - Average time spent on sports and exercise ✅
+      - Average time spent studying ✅
+      - Average sleep quality ✅
+      - Average generic mood ✅
+    - Monthly average (by default from last month) ✅
+      - Average sleep duration ✅
+      - Average time spent on sports and exercise ✅
+      - Average time spent studying ✅
+      - Average sleep quality ✅
+      - Average generic mood ✅
+  - Summary page has a selector for week and month. Check input type="week" and input type="month". ❌ **No firefox support: https://www.w3schools.com/tags/att_input_type_week.asp ! Number input type was used**
+    - When the week is changed, the weekly average will be shown for the given week. ✅
+    - When the month is changed, the monthly average will be shown for the given month. ✅
+    - If no data for the given week exists, the weekly summary shows text suggesting that no data for the given week exists. ✅
+    - If no data for the given month exists, the monthly summary shows text suggesting that no data for the given month exists. ✅
+  - Summary data / averages calculated within the database ✅
+    - When doing weekly reporting, the weekly averages are calculated in the database ✅
+    - When doing monthly reporting, the monthly averages are calculated in the database ✅
+  - Summarization page contains statistics only for the current user. ✅
 
 - **Landing page (i.e. page at the root path of the application)**
 

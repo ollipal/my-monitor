@@ -1,6 +1,7 @@
 import {
+  _getUserEveningAveragesByWeekOrMonth,
+  _getUserMorningAveragesByWeekOrMonth,
   formattedDate,
-  getUserReportAveragesByWeekOrMonth,
 } from "../../services/reportService.js";
 import { assertEquals, assertThrowsAsync } from "../../deps.js";
 
@@ -10,12 +11,15 @@ Deno.test("formattedDate formats correctly", async () => {
 });
 
 Deno.test(
-  "getUserReportAveragesByWeekOrMonth throws error " +
+  "_getUserMorningAveragesByWeekOrMonth throws error " +
     "when no week or month is passed",
   async () => {
     assertThrowsAsync(
       async () => {
-        await getUserReportAveragesByWeekOrMonth({});
+        await _getUserMorningAveragesByWeekOrMonth({
+          userId: 1,
+          year: 2020,
+        });
       },
       Error,
       "Define week or month (only one)",
@@ -24,15 +28,16 @@ Deno.test(
 );
 
 Deno.test(
-  "getUserReportAveragesByWeekOrMonth throws error " +
+  "_getUserMorningAveragesByWeekOrMonth throws error " +
     "when both week and month is passed",
   async () => {
     assertThrowsAsync(
       async () => {
-        await getUserReportAveragesByWeekOrMonth({
-          userId: "user123",
+        await _getUserMorningAveragesByWeekOrMonth({
+          userId: 1,
           week: 1,
           month: 2,
+          year: 2020,
         });
       },
       Error,

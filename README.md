@@ -80,5 +80,8 @@ The checklist for the project requirements can be found at `REQUIREMENTS.md`
 
 Each requirement that has been met is marked with a '✅' symbol.
 
-The current ratio of [requirements met]/[total requirements] can be printed with
+Each requirement that was implemented, but not in a way that described is marked with ❌
+and attached with an explanation.
+
+The current ratio of [requirements implementd]/[total requirements] can be printed with
 `./app.sh requirements`
