@@ -24,10 +24,18 @@ const getLanding = async ({ session, render }) => {
       : "Mood is not improving :(";
   render("index.ejs", {
     reports: await reportService.getReports(),
-    date: reportService.formattedDate(new Date()),
     todaysReport,
     yesterdaysReport,
     mood,
+  });
+};
+
+const getBehaviourReporting = async ({ session, render }) => {
+  const userId = await getUserId(session);
+  render("behaviorReporting.ejs", {
+    date: reportService.formattedDate(new Date()),
+    morningReportDoneToday: await reportService.morningReportDoneToday(userId),
+    eveningReportDoneToday: await reportService.eveningReportDoneToday(userId),
   });
 };
 
@@ -64,7 +72,7 @@ const postMorningform = async ({ request, response, session }) => {
   // TODO validate report
   // TODO validate date is yyy-MM-dd
   await reportService.addMorningReport(report, userId);
-  response.redirect("/");
+  response.redirect("/behavior/reporting");
 };
 
 const postEveningform = async ({ request, response, session }) => {
@@ -72,7 +80,7 @@ const postEveningform = async ({ request, response, session }) => {
   const report = await request.body().value;
   // TODO validate report
   await reportService.addEveningReport(report, userId);
-  response.redirect("/");
+  response.redirect("/behavior/reporting");
 };
 
 const postWeekform = async ({ request, response, session }) => {
@@ -90,6 +98,7 @@ const postMonthform = async ({ request, response, session }) => {
 };
 
 export {
+  getBehaviourReporting,
   getBehaviourSummary,
   getLanding,
   postEveningform,

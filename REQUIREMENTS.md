@@ -54,47 +54,47 @@
 
 - **Reporting**
 
-  - Reporting functionality is available under the path /behavior/reporting
-  - Reporting cannot be done if the user is not authenticated
-  - When accessing /behavior/reporting, user can choose whether morning or evening is being reported
+  - Reporting functionality is available under the path /behavior/reporting ✅
+  - Reporting cannot be done if the user is not authenticated ✅
+  - When accessing /behavior/reporting, user can choose whether morning or evening is being reported ✅
 
-    - User reporting form depends on selection
-    - Page at /behavior/reporting shows whether morning and/or evening reporting for today has already been done
+    - User reporting form depends on selection ✅
+    - Page at /behavior/reporting shows whether morning and/or evening reporting for today has already been done ✅
 
-  - Morning reporting form contains fields for date, sleep duration, sleep quality, and generic mood
+  - Morning reporting form contains fields for date, sleep duration, sleep quality, and generic mood ✅
 
-    - Date is populated by default to today, but can be changed
-      - Form has a date field for selecting the date
-    - Sleep duration is reported in hours (with decimals)
-    - Sleep quality and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.
-      - Form has a slider (e.g. range) or radio buttons for reporting the value
-    - Form contains labels that clarify the purpose of the input fields and the accepted values
+    - Date is populated by default to today, but can be changed ✅
+      - Form has a date field for selecting the date ✅
+    - Sleep duration is reported in hours (with decimals) ✅
+    - Sleep quality and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent. ✅
+      - Form has a slider (e.g. range) or radio buttons for reporting the value ✅
+    - Form contains labels that clarify the purpose of the input fields and the accepted values ✅
     - Form fields are validated
       - Sleep duration must be entered, must be a number (can be decimal), and cannot be negative
       - Sleep quality and generic mood must be reported using numbers between 1 and 5 (integers).
       - In case of validation errors, form fields are populated
 
-  - Evening reporting form contains fields for date, time spent on sports and exercise, time spent studying, regularity and quality of eating, and generic mood
+  - Evening reporting form contains fields for date, time spent on sports and exercise, time spent studying, regularity and quality of eating, and generic mood ✅
 
-    - Date is populated by default to today, but can be changed
-      - Form has a date field for selecting the date
-    - Time spent on sports and exercise and time spent studying are reported in hours (with decimals)
-    - Regularity and quality of eating and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.
-      - Form has a slider (e.g. range) or radio buttons for reporting the value
-    - Form contains labels that clarify the purpose of the input fields and the accepted values
+    - Date is populated by default to today, but can be changed ✅
+      - Form has a date field for selecting the date ✅
+    - Time spent on sports and exercise and time spent studying are reported in hours (with decimals) ✅
+    - Regularity and quality of eating and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent. ✅
+      - Form has a slider (e.g. range) or radio buttons for reporting the value ✅
+    - Form contains labels that clarify the purpose of the input fields and the accepted values ✅
     - Form fields are validated
       - Time spent on sports and exercise and time spent studying are reported in hours must be entered, must be a number (can be decimal), and cannot be negative
       - Regularity and quality of eating and generic mood must be reported using numbers between 1 and 5 (integers).
       - In case of validation errors, form fields are populated
 
-  - Reported values are stored into the database
+  - Reported values are stored into the database ✅
 
-    - The database schema used for reporting works for the task
-    - Reporting is user-specific (all reported values are stored under the currently authenticated user)
-    - If the same report is already given (e.g. morning report for a specific day), then the older report is removed
-      - If the functionality for handling duplicate reports is something else, the functionality is described in documentation
+    - The database schema used for reporting works for the task ✅
+    - Reporting is user-specific (all reported values are stored under the currently authenticated user) ✅
+    - If the same report is already given (e.g. morning report for a specific day), then the older report is removed ✅
+      - If the functionality for handling duplicate reports is something else, the functionality is described in documentation ✅
 
-  - Reporting functionality structured into logical parts (separate views folder, separate controller for reporting, service(s), ...)
+  - Reporting functionality structured into logical parts (separate views folder, separate controller for reporting, service(s), ...) ✅
 
 - **Summarization**
 

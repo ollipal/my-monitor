@@ -4,7 +4,8 @@
 </form>
 <a href="/auth/login">click here to login</a><br>
 <a href="/auth/register">click here to register</a><br>
-<a href="/behavior/summary">click here to show summary</a><br>
+<a href="/behavior/reporting">click here to add behavior reports</a><br>
+<a href="/behavior/summary">click here to show behavior report summary</a><br>
 <h1>my-monitor</h1>
 <ul>
     <% reports.forEach(report => { %>
@@ -14,6 +15,4 @@
 <a href="/behavior/summary">summary</a>
 
 <%- include('./partials/reportComparison.ejs') %>
-<%- include('./partials/morningReportForm.ejs') %>
-<%- include('./partials/eveningReportForm.ejs') %>
 <%- include('./partials/footer.ejs') %>

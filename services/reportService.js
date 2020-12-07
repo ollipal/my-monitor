@@ -328,6 +328,27 @@ const getReport = async (date, userId) => {
   return { ...report, avg_mood };
 };
 
+const morningReportDoneToday = async (userId) => {
+  const report = await getQueryFirst(
+    `SELECT *
+    FROM morning_reports
+    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    userId,
+    formattedDate(new Date()),
+  );
+  return report ? true : false;
+};
+const eveningReportDoneToday = async (userId) => {
+  const report = await getQueryFirst(
+    `SELECT *
+    FROM evening_reports
+    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    userId,
+    formattedDate(new Date()),
+  );
+  return report ? true : false;
+};
+
 export {
   // only for testing
   _getUserEveningAveragesByWeekOrMonth,
@@ -335,6 +356,7 @@ export {
   // normal exports
   addEveningReport,
   addMorningReport,
+  eveningReportDoneToday,
   formattedDate,
   getAllReportAveragesByDate,
   getAllReportAveragesPast7days,
@@ -342,4 +364,5 @@ export {
   getReports,
   getUserReportAveragesByMonth,
   getUserReportAveragesByWeek,
+  morningReportDoneToday,
 };

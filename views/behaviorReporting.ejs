@@ -1,0 +1,25 @@
+<%- include('./partials/header.ejs') %>
+<a href="/">click here to go back to main page</a><br>
+
+<div style="width:500px;">
+    <input id="morningToggle" type="button" name="answer" value="Add morning report" style="display:inline-block;" />
+    <p style="display:inline-block;"><%= morningReportDoneToday ? "(done today)" :  "(not done today)"%></p><br>
+    <input id="eveningToggle" type="button" name="answer" value="Add evening report" style="display:inline-block;" />
+    <p style="display:inline-block;"><%= eveningReportDoneToday ? "(done today)" :  "(not done today)"%></p><br>
+</div>
+
+<script>
+    $('#morningToggle').click(function () {
+        $('#morningform').show();
+        $('#eveningform').hide();
+    });
+    $('#eveningToggle').click(function () {
+        $('#eveningform').show();
+        $('#morningform').hide();
+    });
+</script>
+
+<%- include('./partials/morningReportForm.ejs') %>
+<%- include('./partials/eveningReportForm.ejs') %>
+
+<%- include('./partials/footer.ejs') %>

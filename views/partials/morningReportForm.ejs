@@ -1,12 +1,16 @@
-<h2>Submit morning report</h2>
-<form action="/morningform" method="POST">
-    <label for="fdate">Date:</label><br>
-    <input type="date" id="fdate" name="date" value="<%= date %>"><br>
-    <label for="fsleep_duration">Sleep duration:</label><br>
-    <input type="number" id="fsleep_duration" name="sleep_duration" step="0.1"><br>
-    <label for="fsleep_quality">Sleep quality:</label><br>
-    <input type="number" id="fsleep_quality" name="sleep_quality" min="1" max="5"><br>
-    <label for="fmorning_mood">Generic mood:</label><br>
-    <input type="number" id="fmorning_mood" name="morning_mood" min="1" max="5"><br>
-    <input type="submit" value="Submit" /><br>
-</form>
+<div id="morningform" class="initiallyHidden">
+    <h2>Submit morning report</h2>
+    <form action="/morningform" method="POST">
+        <label for="fdate">Date:</label><br>
+        <input type="date" id="fdate" name="date" value="<%= date %>"><br>
+        <label for="fsleep_duration">Sleep duration (in hours):</label><br>
+        <input type="number" id="fsleep_duration" name="sleep_duration" step="0.1"><br>
+        <label for="fsleep_quality">Sleep quality: </label>
+        <output>3</output><input type="range" value="3" min="1" max="5" id="fsleep_quality" name="sleep_quality"
+            oninput="this.previousElementSibling.value = this.value">
+        <label for="fmorning_mood">Generic mood: </label>
+        <output>3</output><input type="range" value="3" min="1" max="5" id="fmorning_mood" name="morning_mood"
+            oninput="this.previousElementSibling.value = this.value">
+        <input type="submit" value="Submit" /><br>
+    </form>
+</div>

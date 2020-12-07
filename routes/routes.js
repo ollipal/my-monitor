@@ -7,6 +7,7 @@ import {
   postAuthRegister,
 } from "./controllers/userController.js";
 import {
+  getBehaviourReporting,
   getBehaviourSummary,
   getLanding,
   postEveningform,
@@ -27,6 +28,7 @@ router
   .get("/auth/login", getAuthLogin)
   .post("/auth/login", postAuthLogin)
   .post("/auth/logout", postAuthLogout)
+  .get("/behavior/reporting", getBehaviourReporting)
   .get("/behavior/summary", getBehaviourSummary)
   .post("/behavior/summary/weekform", postWeekform)
   .post("/behavior/summary/monthform", postMonthform)
