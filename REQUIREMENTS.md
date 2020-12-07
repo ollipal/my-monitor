@@ -112,7 +112,7 @@
       - Average time spent studying ✅
       - Average sleep quality ✅
       - Average generic mood ✅
-  - Summary page has a selector for week and month. Check input type="week" and input type="month". ❌ **No firefox support: https://www.w3schools.com/tags/att_input_type_week.asp ! Number input type was used**
+  - Summary page has a selector for week and month. Check input type="week" and input type="month". ❌ **No firefox support: https://www.w3schools.com/tags/att_input_type_week.asp ! type="number" input type was used**
     - When the week is changed, the weekly average will be shown for the given week. ✅
     - When the month is changed, the monthly average will be shown for the given month. ✅
     - If no data for the given week exists, the weekly summary shows text suggesting that no data for the given week exists. ✅
@@ -187,4 +187,4 @@
   - Documentation contains necessary CREATE TABLE statements needed to create the database used by the application ✅
   - Documentation contains the address at which the application can currently be accessed
   - Documentation contains guidelines for running the application ✅
-  - Documentation contains guidelines for running tests
+  - Documentation contains guidelines for running tests ✅

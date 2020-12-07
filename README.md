@@ -65,8 +65,9 @@ After the database has been configured, you can run
 
 (if the bash script is not working, you can use
 `deno run --allow-read --allow-net --unstable --allow-env app.js`
-directly to run the application. You can find other commands
-for running tests etc. from `app.sh`, if the bash file is not working)
+directly to run the application, and
+`TESTING=1 deno test --allow-read --allow-net --allow-env --unstable`
+for running the tests)
 
 # Differences compared to the
 
