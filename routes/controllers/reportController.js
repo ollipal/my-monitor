@@ -18,15 +18,17 @@ const getLanding = async ({ session, render }) => {
     userId,
   );
   const moodSummary = !todaysAverageMood || !yesterdaysAverageMood
-    ? ""
+    ? "not sure how things are looking..."
     : todaysAverageMood > yesterdaysAverageMood
     ? "things are looking bright today"
     : todaysAverageMood === yesterdaysAverageMood
     ? "things are looking the same as yesterday"
     : "things are looking gloomy today";
   render("index.ejs", {
-    todaysAverageMood,
-    yesterdaysAverageMood,
+    todaysAverageMood: todaysAverageMood ? todaysAverageMood : "N/A",
+    yesterdaysAverageMood: yesterdaysAverageMood
+      ? yesterdaysAverageMood
+      : "N/A",
     moodSummary,
   });
 };

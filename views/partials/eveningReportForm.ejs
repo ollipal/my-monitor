@@ -1,18 +1,20 @@
 <div id="eveningform" class="initiallyHidden">
     <h2>Submit evening report</h2>
     <form action="/eveningform" method="POST">
-        <label for="fdate">Date:</label><br>
-        <input type="date" id="fdate" name="date" value="<%= date %>"><br>
-        <label for="fsports_duration">Sports duration (in hours):</label><br>
-        <input type="number" id="fsports_duration" name="sports_duration" step="0.1"><br>
-        <label for="fstudy_duration">Study duration (in hours):</label><br>
-        <input type="number" id="fstudy_duration" name="study_duration" step="0.1"><br>
-        <label for="feating_quality">Eating quality: </label>
-        <output>3</output><input type="range" value="3" min="1" max="5" id="feating_quality" name="eating_quality"
-            oninput="this.previousElementSibling.value = this.value">
-        <label for="fevening_mood">Generic mood: </label>
-        <output>3</output><input type="range" value="3" min="1" max="5" id="fevening_mood" name="evening_mood"
-            oninput="this.previousElementSibling.value = this.value">
+        <div class="form-group">
+            <label for="fdate">Date:</label><br>
+            <input type="date" id="fdate" name="date" value="<%= date %>"><br>
+            <label for="fsports_duration">Sports duration (in hours):</label><br>
+            <input type="number" id="fsports_duration" name="sports_duration" step="0.1"><br>
+            <label for="fstudy_duration">Study duration (in hours):</label><br>
+            <input type="number" id="fstudy_duration" name="study_duration" step="0.1"><br>
+            <label for="feating_quality">Eating quality: </label>
+            <output>3</output><input type="range" value="3" min="1" max="5" id="feating_quality" name="eating_quality"
+                oninput="this.previousElementSibling.value = this.value"><br>
+            <label for="fevening_mood">Generic mood: </label>
+            <output>3</output><input type="range" value="3" min="1" max="5" id="fevening_mood" name="evening_mood"
+                oninput="this.previousElementSibling.value = this.value">
+        </div>
         <input type="submit" value="Submit" /><br>
     </form>
 </div>
