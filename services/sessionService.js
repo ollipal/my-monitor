@@ -21,8 +21,8 @@ const saveUserAuthentication = async (session, id, email) => {
 const forgetUserAuthentication = async (session) => {
   await session.set("authenticated", false);
   await session.set("user", { id: null, email: null });
-  await saveWeek(null);
-  await saveMonth(null);
+  await saveWeek(session, null);
+  await saveMonth(session, null);
 };
 
 export {

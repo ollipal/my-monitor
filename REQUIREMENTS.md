@@ -129,7 +129,7 @@
     - Landing page shows users' average mood for today and and yesterday
     - If the average mood yesterday was better than today, tells that things are looking gloomy today
     - If the average mood yesterday was was worse today, tells that things are looking bright today
-  - Landing page has links / buttons for login and register functionality
+  - Landing page has links / buttons for login and register functionality ✅
   - Landing page has links / buttons for reporting functionality
 
 - **Testing**
