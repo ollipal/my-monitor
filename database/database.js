@@ -50,4 +50,4 @@ const getQueryFirst = async (query, ...args) => {
   return null;
 };
 
-export { executeQuery, getQueryFirst, getQueryRows };
+export { executeQuery, getQueryFirst };

@@ -1,9 +1,5 @@
 // deno-lint-ignore-file camelcase
-import {
-  executeQuery,
-  getQueryFirst,
-  getQueryRows,
-} from "../database/database.js";
+import { executeQuery, getQueryFirst } from "../database/database.js";
 import { format } from "../deps.js";
 
 const _EVENING_NA = {
@@ -21,25 +17,6 @@ const _MORNING_NA = {
 
 const formattedDate = (date) => {
   return format(date, "yyyy-MM-dd");
-};
-
-const _getMorningReports = async () => {
-  return await getQueryRows(
-    "SELECT id, date, sleep_duration, sleep_quality, morning_mood FROM morning_reports",
-  );
-};
-
-const _getEveningReports = async () => {
-  return await getQueryRows(
-    "SELECT id, date, sports_duration, study_duration, eating_quality, evening_mood FROM evening_reports",
-  );
-};
-
-const getReports = async () => {
-  const morningReports = await _getMorningReports();
-  const eveningReports = await _getEveningReports();
-
-  return [...morningReports, ...eveningReports];
 };
 
 const _getUserMorningAveragesByWeekOrMonth = async ({
@@ -278,54 +255,39 @@ const addEveningReport = async (report, userId) => {
   );
 };
 
-const _getMorningReport = async (date, userId) => {
-  const report = await getQueryFirst(
-    `SELECT sleep_duration, sleep_quality, morning_mood
+const _getMorningMood = async (date, userId) => {
+  return await getQueryFirst(
+    `SELECT morning_mood
     FROM morning_reports
     WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
     userId,
     formattedDate(date),
   );
-  if (report) {
-    return report;
-  } else {
-    return { sleep_duration: "N/A", sleep_quality: "N/A", morning_mood: "N/A" };
-  }
 };
 
-const _getEveningReport = async (date, userId) => {
-  const report = await getQueryFirst(
-    `SELECT sports_duration, study_duration, eating_quality, evening_mood
+const _getEveningMood = async (date, userId) => {
+  return await getQueryFirst(
+    `SELECT evening_mood
     FROM evening_reports
     WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
     userId,
     formattedDate(date),
   );
-  if (report) {
-    return report;
-  } else {
-    return {
-      sports_duration: "N/A",
-      study_duration: "N/A",
-      eating_quality: "N/A",
-      evening_mood: "N/A",
-    };
-  }
 };
 
-const getReport = async (date, userId) => {
-  const morningReport = await _getMorningReport(date, userId);
-  const eveningReport = await _getEveningReport(date, userId);
-  const report = { ...morningReport, ...eveningReport };
+const getAverageMood = async (date, userId) => {
+  const morningMoodResult = await _getMorningMood(date, userId);
+  const eveningMoodResult = await _getEveningMood(date, userId);
 
   // calculate the average mood based on the rersults
-  let avg_mood;
-  if (report.morning_mood === "N/A" || report.evening_mood === "N/A") {
-    avg_mood = "N/A";
+  if (!morningMoodResult || !eveningMoodResult) {
+    return null;
   } else {
-    avg_mood = ((report.morning_mood + report.evening_mood) / 2).toFixed(2);
+    return (
+      (morningMoodResult.morning_mood + eveningMoodResult.evening_mood) /
+      2
+    ).toFixed(2);
   }
-  return { ...report, avg_mood };
 };
 
 const morningReportDoneToday = async (userId) => {
@@ -360,8 +322,7 @@ export {
   formattedDate,
   getAllReportAveragesByDate,
   getAllReportAveragesPast7days,
-  getReport,
-  getReports,
+  getAverageMood,
   getUserReportAveragesByMonth,
   getUserReportAveragesByWeek,
   morningReportDoneToday,

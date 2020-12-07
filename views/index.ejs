@@ -4,15 +4,13 @@
 </form>
 <a href="/auth/login">click here to login</a><br>
 <a href="/auth/register">click here to register</a><br>
+
+<h1>my-monitor</h1>
+Welcome to my-monitor! With this application, you can keep track of your behavior, meanign the quality and time spent on
+sleep, stydying, exercises, eating and mood.
+<br><br>
 <a href="/behavior/reporting">click here to add behavior reports</a><br>
 <a href="/behavior/summary">click here to show behavior report summary</a><br>
-<h1>my-monitor</h1>
-<ul>
-    <% reports.forEach(report => { %>
-    <li><a href="/behavior/<%= report.id %>"><%= report.date %></a></li>
-    <% }); %>
-</ul>
-<a href="/behavior/summary">summary</a>
-
+<br>
 <%- include('./partials/reportComparison.ejs') %>
 <%- include('./partials/footer.ejs') %>

@@ -9,24 +9,25 @@ import { format, weekOfYear } from "../../deps.js";
 
 const getLanding = async ({ session, render }) => {
   const userId = await getUserId(session);
-  const todaysReport = await reportService.getReport(new Date(), userId);
-  const yesterdaysReport = await reportService.getReport(
+  const todaysAverageMood = await reportService.getAverageMood(
+    new Date(),
+    userId,
+  );
+  const yesterdaysAverageMood = await reportService.getAverageMood(
     new Date(Date.now() - 24 * 60 * 60 * 1000),
     userId,
   );
-  const mood =
-    todaysReport.avg_mood === "N/A" || yesterdaysReport.avg_mood === "N/A"
-      ? "Mood direction is not available"
-      : todaysReport.avg_mood > yesterdaysReport.avg_mood
-      ? "Mood is improving :D"
-      : todaysReport.morning_mood === yesterdaysReport.morning_mood
-      ? "Mood is the same as yesterday :)"
-      : "Mood is not improving :(";
+  const moodSummary = !todaysAverageMood || !yesterdaysAverageMood
+    ? ""
+    : todaysAverageMood > yesterdaysAverageMood
+    ? "things are looking bright today"
+    : todaysAverageMood === yesterdaysAverageMood
+    ? "things are looking the same as yesterday"
+    : "things are looking gloomy today";
   render("index.ejs", {
-    reports: await reportService.getReports(),
-    todaysReport,
-    yesterdaysReport,
-    mood,
+    todaysAverageMood,
+    yesterdaysAverageMood,
+    moodSummary,
   });
 };
 
