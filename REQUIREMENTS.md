@@ -48,8 +48,8 @@
     - Paths starting with /auth are accessible to all ✅
     - Other paths require that the user is authenticated ✅
       - Non-authenticated users are redirected to the login form at /auth/login ✅
-  - Application has middleware that controls access to static files
-    - Static files are placed under /static
+  - Application has middleware that controls access to static files ✅
+    - Static files are placed under /static ✅
   - Middleware functionality is structured into logical parts (e.g. separate middlewares folder). ✅
 
 - **Reporting**
@@ -130,11 +130,11 @@
     - If the average mood yesterday was better than today, tells that things are looking gloomy today
     - If the average mood yesterday was was worse today, tells that things are looking bright today
   - Landing page has links / buttons for login and register functionality ✅
-  - Landing page has links / buttons for reporting functionality
+  - Landing page has links / buttons for reporting functionality ✅
 
 - **Testing**
 
-  - The application has at least 5 meaningful automated tests. All tests detect if e.g. tested functionality is changed so that it no longer works as expected.
+  - The application has at least 5 meaningful automated tests. All tests detect if e.g. tested functionality is changed so that it no longer works as expected. ✅
   - The application has at least 10 meaningful automated tests. All tests detect if e.g. tested functionality is changed so that it no longer works as expected.
   - The application has at least 15 meaningful automated tests. All tests detect if e.g. tested functionality is changed so that it no longer works as expected.
   - The application has at least 20 meaningful automated tests. All tests detect if e.g. tested functionality is changed so that it no longer works as expected.
@@ -162,12 +162,12 @@
   - User interface uses partials for footer content ✅
   - Recurring parts are separated into own partials (e.g. partial for validation errors)
   - Pages with forms contain functionality that guides the user
-    - Labels are shown next to form fields so that the user knows what to enter to the form fields
+    - Labels are shown next to form fields so that the user knows what to enter to the form fields ✅
     - Form fields are validated and user sees validation errors close to the form fields
     - In the case of validation errors, form fields are populated (with the exception of the login page)
-  - User interface uses a style library or self-made stylesheets (see e.g. Twitter Bootstrap for a style library)
-    - If Twitter Bootstrap or other external style libraries are used, they are used over a content delivery network
-  - Different pages of the application follow the same style
+  - User interface uses a style library or self-made stylesheets (see e.g. Twitter Bootstrap for a style library) ✅
+    - If Twitter Bootstrap or other external style libraries are used, they are used over a content delivery network ✅
+  - Different pages of the application follow the same style ✅
   - User sees if the user has logged in (e.g. with a message 'Logged in as my@email.net' shown at the top of the page)
 
 - **APIs**
