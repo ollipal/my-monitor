@@ -6,7 +6,7 @@
   - Dependencies exported from deps.js ✅
   - Project launched from app.js, which is in the root folder ✅
   - Configurations in a separate folder (e.g. config) ✅
-    - Test configurations separate from production configurations
+    - Test configurations separate from production configurations ❌ **from the additional instructions: 'if you use environmental variables, there is in practice no need to separate test configurations from production configurations' --> env variables are in use**
     - Configurations loaded from environmental variables or e.g dotenv -files ✅
 
 - **Users**
