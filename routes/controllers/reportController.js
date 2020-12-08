@@ -1,5 +1,6 @@
 import * as reportService from "../../services/reportService.js";
 import {
+  getUserEmail,
   getUserId,
   getWeekMonth,
   saveMonth,
@@ -30,6 +31,7 @@ const getLanding = async ({ session, render }) => {
       ? yesterdaysAverageMood
       : "N/A",
     moodSummary,
+    email: await getUserEmail(session),
   });
 };
 
@@ -39,6 +41,7 @@ const getBehaviourReporting = async ({ session, render }) => {
     date: reportService.formattedDate(new Date()),
     morningReportDoneToday: await reportService.morningReportDoneToday(userId),
     eveningReportDoneToday: await reportService.eveningReportDoneToday(userId),
+    email: await getUserEmail(session),
   });
 };
 
@@ -66,7 +69,13 @@ const getBehaviourSummary = async ({ session, render }) => {
     year,
   });
 
-  render("behaviorSummary.ejs", { weekAvgs, monthAvgs, week, month });
+  render("behaviorSummary.ejs", {
+    weekAvgs,
+    monthAvgs,
+    week,
+    month,
+    email: await getUserEmail(session),
+  });
 };
 
 const postMorningform = async ({ request, response, session }) => {

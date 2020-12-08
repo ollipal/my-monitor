@@ -1,5 +1,7 @@
 const getUserId = async (session) => (await session.get("user"))?.id;
 
+const getUserEmail = async (session) => (await session.get("user"))?.email;
+
 const getWeekMonth = async (session) => [
   Number(await session.get("week")),
   Number(await session.get("month")),
@@ -27,6 +29,7 @@ const forgetUserAuthentication = async (session) => {
 
 export {
   forgetUserAuthentication,
+  getUserEmail,
   getUserId,
   getWeekMonth,
   saveMonth,

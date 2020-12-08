@@ -1,19 +1,20 @@
 import { loginUser, registerUser } from "../../services/userService.js";
 import {
   forgetUserAuthentication,
+  getUserEmail,
   saveUserAuthentication,
 } from "../../services/sessionService.js";
 
-const getAuthRegister = async ({ render }) => {
-  render("authRegister.ejs");
+const getAuthRegister = async ({ render, session }) => {
+  render("authRegister.ejs", { email: await getUserEmail(session) });
 };
 
-const getAuthLogin = async ({ render }) => {
-  render("authLogin.ejs");
+const getAuthLogin = async ({ render, session }) => {
+  render("authLogin.ejs", { email: await getUserEmail(session) });
 };
 
-const getAuthLogout = async ({ render }) => {
-  render("authLogout.ejs");
+const getAuthLogout = async ({ render, session }) => {
+  render("authLogout.ejs", { email: await getUserEmail(session) });
 };
 
 const _getEmailPasswordVerification = async (request) => {

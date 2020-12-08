@@ -1,7 +1,5 @@
 <%- include('./partials/header.ejs') %>
 
-<a href="/">click here to go back to main page</a>
-
 <form action="/behavior/summary/weekform" method="POST">
     <input type="number" name="week" min="1" max="52" value="<%= week %>">
     <input type="submit" value="Select week" />

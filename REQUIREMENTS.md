@@ -168,7 +168,7 @@
   - User interface uses a style library or self-made stylesheets (see e.g. Twitter Bootstrap for a style library) ✅
     - If Twitter Bootstrap or other external style libraries are used, they are used over a content delivery network ✅
   - Different pages of the application follow the same style ✅
-  - User sees if the user has logged in (e.g. with a message 'Logged in as my@email.net' shown at the top of the page)
+  - User sees if the user has logged in (e.g. with a message 'Logged in as my@email.net' shown at the top of the page) ✅
 
 - **APIs**
 

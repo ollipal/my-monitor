@@ -16,5 +16,7 @@ Welcome to my-monitor! With this application, you can keep track of your behavio
 <a href="/behavior/reporting">click here to add behavior reports</a><br>
 <a href="/behavior/summary">click here to show behavior report summary</a><br>
 
+<% if(email){ %>
 <%- include('./partials/reportComparison.ejs') %>
+<% } %>
 <%- include('./partials/footer.ejs') %>
