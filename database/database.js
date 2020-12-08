@@ -1,25 +1,27 @@
-import { Client } from "../deps.js";
+import { Pool } from "../deps.js";
 
-const _getClient = () => {
-  return new Client({
+const CONCURRENT_CONNECTIONS = 10;
+
+const connectionPool = new Pool(
+  {
     user: Deno.env.get("PG_USER"),
     password: Deno.env.get("PG_PASSWORD"),
     hostname: Deno.env.get("PG_HOSTNAME"),
     port: Number(Deno.env.get("PG_PORT")),
     database: Deno.env.get("PG_DB_NAME"),
-  });
-};
+  },
+  CONCURRENT_CONNECTIONS,
+);
 
 const executeQuery = async (query, ...args) => {
-  const client = _getClient();
+  const client = await connectionPool.connect();
   try {
-    await client.connect();
     return await client.query(query, ...args);
   } catch (e) {
     console.log(e);
     // should we return for example false on failure?
   } finally {
-    await client.end();
+    client.release();
   }
 };
 

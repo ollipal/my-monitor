@@ -152,7 +152,7 @@
 
   - Expensive calculations such as calculating averages are done in the database ✅
   - Indices are used when joining tables if the queries are such that they are used often
-  - Database uses a connection pool
+  - Database uses a connection pool ✅
   - Database credentials are not included in the code ✅
 
 - **User interface / views**
