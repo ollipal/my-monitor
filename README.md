@@ -2,13 +2,7 @@
 
 ## Configuring Postgres database:
 
-After creating your Postgres database, select the correct timezone, for example:
-
-```
-SET timezone TO 'Europe/Helsinki';
-```
-
-then add proper tables with:
+After creating your Postgres database, add proper tables with:
 
 ```
 CREATE TABLE users (
@@ -28,6 +22,8 @@ CREATE TABLE morning_reports (
     morning_mood INT NOT NULL CHECK (0 <= morning_mood AND morning_mood <= 5)
 );
 
+CREATE INDEX ON morning_reports(date_trunc('day', date::timestamp));
+
 CREATE TABLE evening_reports (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) NOT NULL,
@@ -37,6 +33,8 @@ CREATE TABLE evening_reports (
     eating_quality INT NOT NULL CHECK (0 <= eating_quality AND eating_quality <= 5),
     evening_mood INT NOT NULL CHECK (0 <= evening_mood AND evening_mood <= 5)
 );
+
+CREATE INDEX ON evening_reports(date_trunc('day', date::timestamp));
 ```
 
 then create an `.env` file to `/config`, and add these variables
@@ -63,21 +61,21 @@ After the database has been configured, you can run
 - test+formatter+linter with: `./app.sh pre-commit`
 - requirements met with: `./app.sh requirements`
 
-(if the bash script is not working, you can use
+(if the bash script is not working on your platform, you can use
 `deno run --allow-read --allow-net --unstable --allow-env app.js`
 directly to run the application, and
 `TESTING=1 deno test --allow-read --allow-net --allow-env --unstable`
 for running the tests)
 
-# Differences compared to the
+# Differences compared to the requirements
 
 The website/api provides information on the week of the date, and not
 necessarily for the past 7 days. This was done because it makes more
 sense to me, and it is tecnically as harder/harder.
 
-# Checklist
+# Requirements
 
-The checklist for the project requirements can be found at `REQUIREMENTS.md`
+The requirements for the project requirements can be found at `REQUIREMENTS.md`
 
 Each requirement that has been met is marked with a '✅' symbol.
 

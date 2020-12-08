@@ -259,7 +259,7 @@ const _getMorningMood = async (date, userId) => {
   return await getQueryFirst(
     `SELECT morning_mood
     FROM morning_reports
-    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
     formattedDate(date),
   );
@@ -269,7 +269,7 @@ const _getEveningMood = async (date, userId) => {
   return await getQueryFirst(
     `SELECT evening_mood
     FROM evening_reports
-    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
     formattedDate(date),
   );
@@ -294,7 +294,7 @@ const morningReportDoneToday = async (userId) => {
   const report = await getQueryFirst(
     `SELECT *
     FROM morning_reports
-    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
     formattedDate(new Date()),
   );
@@ -304,7 +304,7 @@ const eveningReportDoneToday = async (userId) => {
   const report = await getQueryFirst(
     `SELECT *
     FROM evening_reports
-    WHERE user_id = $1 AND date_trunc('day', date) = $2;`,
+    WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
     formattedDate(new Date()),
   );
