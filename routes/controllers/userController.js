@@ -12,6 +12,10 @@ const getAuthLogin = async ({ render }) => {
   render("authLogin.ejs");
 };
 
+const getAuthLogout = async ({ render }) => {
+  render("authLogout.ejs");
+};
+
 const _getEmailPasswordVerification = async (request) => {
   const body = request.body();
   const params = await body.value;
@@ -59,11 +63,12 @@ const postAuthLogin = async ({ request, response, session }) => {
 
 const postAuthLogout = async ({ response, session }) => {
   await forgetUserAuthentication(session);
-  response.redirect("/auth/login");
+  response.redirect("/");
 };
 
 export {
   getAuthLogin,
+  getAuthLogout,
   getAuthRegister,
   postAuthLogin,
   postAuthLogout,

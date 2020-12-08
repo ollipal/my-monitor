@@ -1,6 +1,7 @@
 import { Router } from "../deps.js";
 import {
   getAuthLogin,
+  getAuthLogout,
   getAuthRegister,
   postAuthLogin,
   postAuthLogout,
@@ -27,6 +28,7 @@ router
   .post("/auth/register", postAuthRegister)
   .get("/auth/login", getAuthLogin)
   .post("/auth/login", postAuthLogin)
+  .get("/auth/logout", getAuthLogout)
   .post("/auth/logout", postAuthLogout)
   .get("/behavior/reporting", getBehaviourReporting)
   .get("/behavior/summary", getBehaviourSummary)

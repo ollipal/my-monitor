@@ -1,14 +1,18 @@
 <%- include('./partials/header.ejs') %>
-<form action="/auth/logout" method="POST">
-    <input type="submit" value="Log out" /><br>
-</form>
-<a href="/auth/login">click here to login</a><br>
-<a href="/auth/register">click here to register</a>
-
 <h1>my-monitor</h1>
-Welcome to my-monitor! With this application, you can keep track of your behavior, meanign the quality and time spent on
-sleep, stydying, exercises, eating and mood.
-<br><br>
+Welcome to my-monitor! With this application, you can keep track of your behavior, which means the time spent on:
+<ul>
+    <li>sleeping</li>
+    <li>stydying</li>
+    <li>exercises</li>
+</ul>
+<p>and the quality of:</p>
+<ul>
+    <li>sleeping</li>
+    <li>eating</li>
+    <li>mood</li>
+</ul>
+
 <a href="/behavior/reporting">click here to add behavior reports</a><br>
 <a href="/behavior/summary">click here to show behavior report summary</a><br>
 

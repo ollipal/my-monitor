@@ -1,0 +1,12 @@
+<%- include('./partials/header.ejs') %>
+
+<div style="width:220px;" ;>
+    <h4>Are you sure you want to log out?</h4>
+    <form action="/" method="GET" style="float:left;">
+        <input type="submit" value="Back to main" /><br>
+    </form>
+    <form action="/auth/logout" method="POST" style="float:right;">
+        <input type="submit" value="Log out" /><br>
+    </form>
+</div>
+<%- include('./partials/footer.ejs') %>

@@ -42,12 +42,14 @@ const limitAccessMiddleware = async ({ request, response, session }, next) => {
   /*
    * allow access only if:
    * - authenticated
+   * - accessing "/"
    * - accessing "/auth/"
    * - accessing "/api/"
    * else redirect to "/auth/register"
    */
   if (
     (await session.get("authenticated")) ||
+    request.url.pathname === "/" ||
     request.url.pathname.startsWith("/auth/") ||
     request.url.pathname.startsWith("/api/")
   ) {
