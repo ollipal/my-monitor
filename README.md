@@ -1,5 +1,9 @@
 # my-monitor
 
+The application can be found from: https://my-m0nit0r.herokuapp.com/
+
+# Running the application locally
+
 ## Configuring Postgres database:
 
 After creating your Postgres database, add proper tables with:
@@ -50,7 +54,7 @@ PG_DB_NAME=
 
 (the same values can be found from `/config/.env.examples`)
 
-## Running the application
+## starting the application
 
 After the database has been configured, you can run
 

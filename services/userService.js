@@ -20,7 +20,7 @@ const registerUser = async (email, password) => {
    *    returns false
    */
 
-  if ((await _getUser(email)) === null) {
+  if ((await _getUser(email)) !== null) {
     return false;
   } else {
     await executeQuery(

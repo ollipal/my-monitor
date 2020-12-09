@@ -24,9 +24,11 @@ export {
 
 // export the environmental values
 import { config } from "https://deno.land/x/dotenv@v1.0.1/mod.ts";
-config({
-  path: "./config/.env",
-  example: "./config/.env.example",
-  safe: true,
-  export: true,
-});
+if (!Deno.env.get("HEROKU_PORT")) {
+  config({
+    path: "./config/.env",
+    example: "./config/.env.example",
+    safe: true,
+    export: true,
+  });
+}

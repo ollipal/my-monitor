@@ -180,11 +180,11 @@
 
 - **Deployment**
 
-  - Application is available and working in an online location (e.g. Heroku) at an address provided in the documentation
-  - Application can be run locally following the guidelines in documentation
+  - Application is available and working in an online location (e.g. Heroku) at an address provided in the documentation ✅
+  - Application can be run locally following the guidelines in documentation ✅
 
 - **Documentation**
   - Documentation contains necessary CREATE TABLE statements needed to create the database used by the application ✅
-  - Documentation contains the address at which the application can currently be accessed
+  - Documentation contains the address at which the application can currently be accessed ✅
   - Documentation contains guidelines for running the application ✅
   - Documentation contains guidelines for running tests ✅

@@ -2,16 +2,24 @@ import { Pool } from "../deps.js";
 
 const CONCURRENT_CONNECTIONS = 10;
 
-const connectionPool = new Pool(
-  {
-    user: Deno.env.get("PG_USER"),
-    password: Deno.env.get("PG_PASSWORD"),
-    hostname: Deno.env.get("PG_HOSTNAME"),
-    port: Number(Deno.env.get("PG_PORT")),
-    database: Deno.env.get("PG_DB_NAME"),
-  },
-  CONCURRENT_CONNECTIONS,
-);
+let connectionPool;
+if (!Deno.env.get("HEROKU_PORT")) {
+  connectionPool = new Pool(
+    {
+      user: Deno.env.get("PG_USER"),
+      password: Deno.env.get("PG_PASSWORD"),
+      hostname: Deno.env.get("PG_HOSTNAME"),
+      port: Number(Deno.env.get("PG_PORT")),
+      database: Deno.env.get("PG_DB_NAME"),
+    },
+    CONCURRENT_CONNECTIONS,
+  );
+} else {
+  connectionPool = new Pool(
+    Deno.env.toObject().DATABASE_URL,
+    CONCURRENT_CONNECTIONS,
+  );
+}
 
 const executeQuery = async (query, ...args) => {
   const client = await connectionPool.connect();

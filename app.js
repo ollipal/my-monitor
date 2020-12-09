@@ -3,7 +3,12 @@ import { router } from "./routes/routes.js";
 import * as middleware from "./middlewares/middlewares.js";
 import { adapterFactory, engineFactory, Session, viewEngine } from "./deps.js";
 
-const port = 7777;
+let port;
+if (!Deno.env.get("HEROKU_PORT")) {
+  port = 7777;
+} else {
+  port = Number(Deno.env.get("HEROKU_PORT"));
+}
 
 // init oak application
 const app = new Application();
@@ -35,7 +40,7 @@ app.use(
   viewEngine(oakAdapter, ejsEngine, {
     viewRoot: "./views",
     useCache: true,
-  }),
+  })
 );
 
 // add routes
