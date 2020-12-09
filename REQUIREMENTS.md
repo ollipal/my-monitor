@@ -18,10 +18,10 @@
   - Registration form is accessible at /auth/registration ✅
     - Registration uses labels to clarify the purpose of the input fields ✅
     - Registration form is validated on the server
-      - Email must be an authentic email
-      - Password must contain at least 4 characters
-      - Validation errors shown on page
-      - In case of validation errors, email field is populated (password is not)
+      - Email must be an authentic email ✅
+      - Password must contain at least 4 characters ✅
+      - Validation errors shown on page ✅
+      - In case of validation errors, email field is populated (password is not) ✅
   - User-specific functionality is structured into logical parts (e.g. userController.js, userService.js) ✅
 
 - **Authentication**
@@ -31,8 +31,8 @@
     - Login form asks for email and password ✅
     - Login uses labels to clarify the purpose of the input fields ✅
     - Login form has a link to the registration form ✅
-    - If the user types in an invalid email or password, a message "Invalid email or password" is shown on the login page.
-      - Form fields are not populated
+    - If the user types in an invalid email or password, a message "Invalid email or password" is shown on the login page. ✅
+      - Form fields are not populated ✅
   - Authentication functionality is structured into logical parts (e.g. authController.js or part of userController.js, ...). ✅
   - Application has a logout button that allows the user to logout (logging out effectively means clearing the session) ✅
     - Logout functionality is at /auth/logout ✅

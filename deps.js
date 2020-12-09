@@ -21,6 +21,12 @@ export {
   assertEquals,
   assertThrowsAsync,
 } from "https://deno.land/std@0.78.0/testing/asserts.ts";
+export {
+  isEmail,
+  minLength,
+  required,
+  validate,
+} from "https://deno.land/x/validasaur@v0.15.0/mod.ts";
 
 // export the environmental values
 import { config } from "https://deno.land/x/dotenv@v1.0.1/mod.ts";

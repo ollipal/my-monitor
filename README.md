@@ -1,6 +1,23 @@
 # my-monitor
 
-The application can be found from: https://my-m0nit0r.herokuapp.com/
+With this application, you can keep track of your behavior, which means t
+the time spent on:
+
+- sleeping
+- stydying
+- exercises
+
+and the quality of:
+
+- sleeping
+- eating
+- mood
+
+The application can be found at: https://my-m0nit0r.herokuapp.com/
+
+It works with deno + oak framwork, server side rendering with .ejs and
+is styled with PaperCSS! The deployment is automatically with Github
+Actions to Heroku, and data is stored to PostgreSQL.
 
 # Running the application locally
 

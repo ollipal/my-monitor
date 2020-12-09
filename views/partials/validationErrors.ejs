@@ -1,0 +1,5 @@
+<% if (validationErrors) {%>
+<% Object.values(validationErrors).forEach(function(error) { %>
+<a class="paper-btn btn-danger-outline"><%= error %></a>
+<% });%>
+<% } %>

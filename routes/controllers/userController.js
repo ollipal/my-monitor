@@ -1,64 +1,95 @@
+import { isEmail, minLength, required, validate } from "../../deps.js";
 import { loginUser, registerUser } from "../../services/userService.js";
 import {
   forgetUserAuthentication,
+  getAndForgetValuesErrors,
   getUserEmail,
   saveUserAuthentication,
+  saveValuesErrors,
 } from "../../services/sessionService.js";
 
 const getAuthRegister = async ({ render, session }) => {
-  render("authRegister.ejs", { email: await getUserEmail(session) });
+  const [values, errors] = await getAndForgetValuesErrors(session);
+  render("authRegister.ejs", {
+    email: await getUserEmail(session),
+    errors,
+    values,
+  });
 };
 
 const getAuthLogin = async ({ render, session }) => {
-  render("authLogin.ejs", { email: await getUserEmail(session) });
+  const [values, errors] = await getAndForgetValuesErrors(session);
+  render("authLogin.ejs", {
+    email: await getUserEmail(session),
+    errors,
+    values,
+  });
 };
 
 const getAuthLogout = async ({ render, session }) => {
   render("authLogout.ejs", { email: await getUserEmail(session) });
 };
 
-const _getEmailPasswordVerification = async (request) => {
-  const body = request.body();
-  const params = await body.value;
-
-  return [
-    params.get("email"),
-    params.get("password"),
-    params.get("verification"),
-  ];
+const userRules = {
+  email: [required, isEmail],
+  password: [required, minLength(4)],
 };
 
-const postAuthRegister = async ({ request, response }) => {
-  const [email, password, verification] = await _getEmailPasswordVerification(
-    request,
-  );
+const _getData = async (request) => {
+  const body = request.body();
+  const params = await body.value;
+  return {
+    email: params.get("email"),
+    password: params.get("password"),
+    verification: params.get("verification"),
+    errors: {},
+  };
+};
 
-  if (password !== verification) {
-    response.body = "The entered passwords did not match";
-    return;
+const postAuthRegister = async ({ request, render, response, session }) => {
+  const data = await _getData(request);
+  // check validation rules
+  const validationResult = await validate(data, userRules);
+  let passes = validationResult[0];
+  const errors = validationResult[1];
+  // check verfification
+  if (data.password !== data.verification) {
+    errors.verification = { mismatch: "The entered passwords did not match" };
+    passes = false;
+  }
+  // if ok so far try registering
+  if (passes) {
+    const registerationSuccess = await registerUser(data.email, data.password);
+    if (!registerationSuccess) {
+      errors.email = {
+        ...(errors?.email ? errors.email : {}),
+        ...{ reserved: "The email is already reserved" },
+      };
+      passes = false;
+    }
   }
 
-  // TODO validation
-  if (await registerUser(email, password)) {
+  if (passes) {
     response.redirect("/auth/login");
   } else {
-    response.body = "The email is already reserved.";
-    // TODO redirect
+    await saveValuesErrors(session, { email: data.email }, errors);
+    response.redirect("/auth/register");
   }
 };
 
 const postAuthLogin = async ({ request, response, session }) => {
-  const [email, password, _] = await _getEmailPasswordVerification(request);
-
-  // TODO validation
-  const [loginSuccessfull, userId] = await loginUser(email, password);
+  const data = await _getData(request);
+  const [loginSuccessfull, userId] = await loginUser(data.email, data.password);
   if (loginSuccessfull) {
-    await saveUserAuthentication(session, userId, email);
+    await saveUserAuthentication(session, userId, data.email);
     response.redirect("/");
   } else {
-    response.status = 401;
-    response.body = "login failed";
-    // TODO redirect
+    await saveValuesErrors(
+      session,
+      {},
+      { email: { _: "Invalid email or password" } },
+    );
+    response.redirect("/auth/login");
   }
 };
 
