@@ -19,8 +19,16 @@
   .initiallyHidden {
     display: none;
   }
+
+  .flex-container {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+  }
 </style>
 
 <body>
   <%- include('./navBar.ejs') %>
-  <div class="content">
+  <div class="flex-container">
+    <div class="content">

@@ -1,9 +1,16 @@
 <%- include('./partials/header.ejs') %>
 
-<form action="/behavior/summary/weekform" method="POST">
-    <input type="number" name="week" min="1" max="52" value="<%= week %>">
-    <input type="submit" value="Select week" />
-</form>
+<style>
+    .num-input {
+        display: inline-block;
+        width: 150px;
+    }
+
+    .submit {
+        display: inline-block;
+        width: 150px;
+    }
+</style>
 
 <h3>Averages for <%= week%>. week:</h3>
 <p>sleep duration: <%= weekAvgs.average_sleep_duration %></p>
@@ -14,18 +21,26 @@
 <p>morning mood: <%= weekAvgs.average_morning_mood %></p>
 <p>evening mood: <%= weekAvgs.average_evening_mood %></p>
 
-<form action="/behavior/summary/monthform" method="POST">
-    <input type="number" name="month" min="1" max="12" value="<%= month %>">
-    <input type="submit" value="Select month" />
+<form action="/behavior/summary/weekform" method="POST">
+    <input class="num-input" type="number" name="week" min="1" max="52" value="<%= week %>">
+    <input class="submit" type="submit" value="Select week" />
 </form>
 
-<h3>Averages for <%= month%>. month:</h3>
-<p>sleep duration: <%= monthAvgs.average_sleep_duration %></p>
-<p>sleep quality: <%= monthAvgs.average_sleep_quality %></p>
-<p>sports duration: <%= monthAvgs.average_sports_duration %></p>
-<p>study duration: <%= monthAvgs.average_study_duration %></p>
-<p>eating quality: <%= monthAvgs.average_eating_quality %></p>
-<p>morning mood: <%= monthAvgs.average_morning_mood %></p>
-<p>evening mood: <%= monthAvgs.average_evening_mood %></p>
+</div>
+<div class="content">
 
-<%- include('./partials/footer.ejs') %>
+    <h3>Averages for <%= month%>. month:</h3>
+    <p>sleep duration: <%= monthAvgs.average_sleep_duration %></p>
+    <p>sleep quality: <%= monthAvgs.average_sleep_quality %></p>
+    <p>sports duration: <%= monthAvgs.average_sports_duration %></p>
+    <p>study duration: <%= monthAvgs.average_study_duration %></p>
+    <p>eating quality: <%= monthAvgs.average_eating_quality %></p>
+    <p>morning mood: <%= monthAvgs.average_morning_mood %></p>
+    <p>evening mood: <%= monthAvgs.average_evening_mood %></p>
+
+    <form action="/behavior/summary/monthform" method="POST">
+        <input class="num-input" type="number" name="month" min="1" max="12" value="<%= month %>">
+        <input class="submit" type="submit" value="Select month" />
+    </form>
+
+    <%- include('./partials/footer.ejs') %>
