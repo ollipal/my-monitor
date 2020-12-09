@@ -13,10 +13,12 @@ Welcome to my-monitor! With this application, you can keep track of your behavio
     <li>mood</li>
 </ul>
 
+<% if(email){ %>
 <a href="/behavior/reporting">click here to add behavior reports</a><br>
 <a href="/behavior/summary">click here to show behavior report summary</a><br>
-
-<% if(email){ %>
 <%- include('./partials/reportComparison.ejs') %>
+<% } else { %>
+<p>please <a href="/auth/register">register</a> or <a href="/auth/login">login</a> to start adding behavior
+    reports.</p>
 <% } %>
 <%- include('./partials/footer.ejs') %>
