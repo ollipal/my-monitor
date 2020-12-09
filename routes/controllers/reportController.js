@@ -1,12 +1,25 @@
 import * as reportService from "../../services/reportService.js";
 import {
+  getAndForgetValuesErrors,
   getUserEmail,
   getUserId,
   getWeekMonth,
   saveMonth,
+  saveValuesErrors,
   saveWeek,
 } from "../../services/sessionService.js";
-import { format, weekOfYear } from "../../deps.js";
+import {
+  format,
+  isInt,
+  isNumber,
+  isNumeric,
+  minNumber,
+  notNull,
+  numberBetween,
+  required,
+  validate,
+  weekOfYear,
+} from "../../deps.js";
 
 const getLanding = async ({ session, render }) => {
   const userId = await getUserId(session);
@@ -37,11 +50,14 @@ const getLanding = async ({ session, render }) => {
 
 const getBehaviourReporting = async ({ session, render }) => {
   const userId = await getUserId(session);
+  const [values, errors] = await getAndForgetValuesErrors(session);
   render("behaviorReporting.ejs", {
     date: reportService.formattedDate(new Date()),
     morningReportDoneToday: await reportService.morningReportDoneToday(userId),
     eveningReportDoneToday: await reportService.eveningReportDoneToday(userId),
     email: await getUserEmail(session),
+    values,
+    errors,
   });
 };
 
@@ -78,21 +94,92 @@ const getBehaviourSummary = async ({ session, render }) => {
   });
 };
 
+const _parseMorningValues = async (request) => {
+  const report = await request.body().value;
+  /*
+   * String are handled separately
+   * because parseFloat("") returns NaN
+   * which passes all other tests...
+   */
+  return {
+    morningDateString: report.get("date"),
+    sleepDurationString: report.get("sleep_duration"),
+    sleepQualityString: report.get("sleep_quality"),
+    morningMoodString: report.get("morning_mood"),
+    sleepDuration: parseFloat(report.get("sleep_duration")),
+    sleepQuality: parseFloat(report.get("sleep_quality")),
+    morningMood: parseFloat(report.get("morning_mood")),
+  };
+};
+
+const _parseEveningValues = async (request) => {
+  const report = await request.body().value;
+  /*
+   * String are handled separately
+   * because parseFloat("") returns NaN
+   * which passes all other tests...
+   */
+  return {
+    eveningDateString: report.get("date"),
+    sportsDurationString: report.get("sports_duration"),
+    studyDurationString: report.get("study_duration"),
+    eatingQualityString: report.get("eating_quality"),
+    eveningMoodString: report.get("evening_mood"),
+    sportsDuration: parseFloat(report.get("sports_duration")),
+    studyDuration: parseFloat(report.get("study_duration")),
+    eatingQuality: parseFloat(report.get("eating_quality")),
+    eveningMood: parseFloat(report.get("evening_mood")),
+  };
+};
+
+const _morningRules = {
+  morningDateString: [required], // not validated to be date
+  sleepDurationString: [required, isNumeric],
+  sleepQualityString: [required, isNumeric],
+  morningMoodString: [required, isNumeric],
+  sleepDuration: [required, isNumber, minNumber(0)],
+  sleepQuality: [required, isInt, numberBetween(1, 5)],
+  morningMood: [required, isInt, numberBetween(1, 5)],
+};
+
+const _eveningRules = {
+  eveningDateString: [required], // not validated to be date
+  sportsDurationString: [required, isNumeric],
+  studyDurationString: [required, isNumeric],
+  eatingQualityString: [required, isNumeric],
+  eveningMoodString: [required, isNumeric],
+  sportsDuration: [required, isNumber, minNumber(0)],
+  studyDuration: [required, isNumber, minNumber(0)],
+  eatingQuality: [required, isInt, numberBetween(1, 5)],
+  eveningMood: [required, isInt, numberBetween(1, 5)],
+};
+
 const postMorningform = async ({ request, response, session }) => {
   const userId = await getUserId(session);
-  const report = await request.body().value;
-  // TODO validate report
-  // TODO validate date is yyy-MM-dd
-  await reportService.addMorningReport(report, userId);
-  response.redirect("/behavior/reporting");
+  const values = await _parseMorningValues(request);
+  const [passes, errors] = await validate(values, _morningRules);
+
+  if (passes) {
+    await reportService.addMorningReport(values, userId);
+    response.redirect("/behavior/reporting");
+  } else {
+    await saveValuesErrors(session, values, errors);
+    response.redirect("/behavior/reporting");
+  }
 };
 
 const postEveningform = async ({ request, response, session }) => {
   const userId = await getUserId(session);
-  const report = await request.body().value;
-  // TODO validate report
-  await reportService.addEveningReport(report, userId);
-  response.redirect("/behavior/reporting");
+  const values = await _parseEveningValues(request);
+  const [passes, errors] = await validate(values, _eveningRules);
+
+  if (passes) {
+    await reportService.addEveningReport(values, userId);
+    response.redirect("/behavior/reporting");
+  } else {
+    await saveValuesErrors(session, values, errors);
+    response.redirect("/behavior/reporting");
+  }
 };
 
 const postWeekform = async ({ request, response, session }) => {

@@ -17,7 +17,7 @@
   - Users can register to the application ✅
   - Registration form is accessible at /auth/registration ✅
     - Registration uses labels to clarify the purpose of the input fields ✅
-    - Registration form is validated on the server
+    - Registration form is validated on the server ✅
       - Email must be an authentic email ✅
       - Password must contain at least 4 characters ✅
       - Validation errors shown on page ✅
@@ -69,10 +69,10 @@
     - Sleep quality and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent. ✅
       - Form has a slider (e.g. range) or radio buttons for reporting the value ✅
     - Form contains labels that clarify the purpose of the input fields and the accepted values ✅
-    - Form fields are validated
-      - Sleep duration must be entered, must be a number (can be decimal), and cannot be negative
-      - Sleep quality and generic mood must be reported using numbers between 1 and 5 (integers).
-      - In case of validation errors, form fields are populated
+    - Form fields are validated ✅
+      - Sleep duration must be entered, must be a number (can be decimal), and cannot be negative ✅
+      - Sleep quality and generic mood must be reported using numbers between 1 and 5 (integers). ✅
+      - In case of validation errors, form fields are populated ✅
 
   - Evening reporting form contains fields for date, time spent on sports and exercise, time spent studying, regularity and quality of eating, and generic mood ✅
 
@@ -82,10 +82,10 @@
     - Regularity and quality of eating and generic mood are reported using a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent. ✅
       - Form has a slider (e.g. range) or radio buttons for reporting the value ✅
     - Form contains labels that clarify the purpose of the input fields and the accepted values ✅
-    - Form fields are validated
-      - Time spent on sports and exercise and time spent studying are reported in hours must be entered, must be a number (can be decimal), and cannot be negative
-      - Regularity and quality of eating and generic mood must be reported using numbers between 1 and 5 (integers).
-      - In case of validation errors, form fields are populated
+    - Form fields are validated ✅
+      - Time spent on sports and exercise and time spent studying are reported in hours must be entered, must be a number (can be decimal), and cannot be negative ✅
+      - Regularity and quality of eating and generic mood must be reported using numbers between 1 and 5 (integers). ✅
+      - In case of validation errors, form fields are populated ✅
 
   - Reported values are stored into the database ✅
 
@@ -160,11 +160,11 @@
   - Views are stored in a separate folder ✅
   - User interface uses partials for header content ✅
   - User interface uses partials for footer content ✅
-  - Recurring parts are separated into own partials (e.g. partial for validation errors)
-  - Pages with forms contain functionality that guides the user
+  - Recurring parts are separated into own partials (e.g. partial for validation errors) ✅
+  - Pages with forms contain functionality that guides the user ✅
     - Labels are shown next to form fields so that the user knows what to enter to the form fields ✅
-    - Form fields are validated and user sees validation errors close to the form fields
-    - In the case of validation errors, form fields are populated (with the exception of the login page)
+    - Form fields are validated and user sees validation errors close to the form fields ✅
+    - In the case of validation errors, form fields are populated (with the exception of the login page) ✅
   - User interface uses a style library or self-made stylesheets (see e.g. Twitter Bootstrap for a style library) ✅
     - If Twitter Bootstrap or other external style libraries are used, they are used over a content delivery network ✅
   - Different pages of the application follow the same style ✅

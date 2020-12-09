@@ -212,13 +212,13 @@ const getAllReportAveragesByDate = async ({ year, month, day }) => {
   return { ...morningAvg, ...eveningAvg };
 };
 
-const addMorningReport = async (report, userId) => {
+const addMorningReport = async (values, userId) => {
   // delete old (might not exist)
   await executeQuery(
     `DELETE FROM morning_reports
     WHERE user_id = $1 AND to_char(date, 'IYYY-MM-DD') = $2;`,
     userId,
-    report.get("date"),
+    values.morningDateString,
   );
   // add new
   await executeQuery(
@@ -226,20 +226,20 @@ const addMorningReport = async (report, userId) => {
     (user_id, date, sleep_duration, sleep_quality, morning_mood)
     VALUES ($1, $2, $3, $4, $5);`,
     userId,
-    report.get("date"),
-    report.get("sleep_duration"),
-    report.get("sleep_quality"),
-    report.get("morning_mood"),
+    values.morningDateString,
+    values.sleepDuration,
+    values.sleepQuality,
+    values.morningMood,
   );
 };
 
-const addEveningReport = async (report, userId) => {
+const addEveningReport = async (values, userId) => {
   // delete old (might not exist)
   await executeQuery(
     `DELETE FROM evening_reports
     WHERE user_id = $1 AND to_char(date, 'IYYY-MM-DD') = $2;`,
     userId,
-    report.get("date"),
+    values.eveningDateString,
   );
   // add new
   await executeQuery(
@@ -247,11 +247,11 @@ const addEveningReport = async (report, userId) => {
     (user_id, date, sports_duration, study_duration, eating_quality, evening_mood)
     VALUES ($1, $2, $3, $4, $5, $6);`,
     userId,
-    report.get("date"),
-    report.get("sports_duration"),
-    report.get("study_duration"),
-    report.get("eating_quality"),
-    report.get("evening_mood"),
+    values.eveningDateString,
+    values.sportsDuration,
+    values.studyDuration,
+    values.eatingQuality,
+    values.eveningMood,
   );
 };
 

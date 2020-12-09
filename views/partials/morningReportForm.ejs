@@ -1,17 +1,28 @@
 <div id="morningform" class="initiallyHidden">
     <h2>Morning report</h2>
     <form action="/morningform" method="POST">
-        <div class="form-group">
+        <div class="form-group my-error-form">
             <label for="fdate">Date:</label><br>
-            <input type="date" id="fdate" name="date" value="<%= date %>"><br>
+            <%- include('./validationErrors.ejs', {validationErrors: errors?.morningDateString}) %>
+            <input type="date" id="fdate" name="date"
+                value="<%= values?.morningDateString ? values.morningDateString : date %>"><br>
             <label for="fsleep_duration">Sleep duration (in hours):</label><br>
-            <input type="number" id="fsleep_duration" name="sleep_duration" step="0.1"><br>
+            <%- include('./validationErrors.ejs', {validationErrors: errors?.sleepDurationString}) %>
+            <%- include('./validationErrors.ejs', {validationErrors: errors?.sleepDuration}) %>
+            <input type="number" id="fsleep_duration" name="sleep_duration" step="0.1" min="0"
+                value="<%= values?.sleepDuration %>"><br>
             <label for="fsleep_quality">Sleep quality: </label>
-            <output>3</output><input type="range" value="3" min="1" max="5" id="fsleep_quality" name="sleep_quality"
-                oninput="this.previousElementSibling.value = this.value"><br>
+            <%- include('./validationErrors.ejs', {validationErrors: errors?.sleepQualityString}) %>
+            <%- include('./validationErrors.ejs', {validationErrors: errors?.sleepQuality}) %>
+            <output><%= values?.sleepQuality ? values.sleepQuality : 3 %></output><input type="range"
+                value="<%= values?.sleepQuality ? values.sleepQuality : 3 %>" min="1" max="5" id="fsleep_quality"
+                name="sleep_quality" oninput="this.previousElementSibling.value = this.value"><br>
             <label for="fmorning_mood">Generic mood: </label>
-            <output>3</output><input type="range" value="3" min="1" max="5" id="fmorning_mood" name="morning_mood"
-                oninput="this.previousElementSibling.value = this.value">
+            <%- include('./validationErrors.ejs', {validationErrors: errors?.morningMoodString}) %>
+            <%- include('./validationErrors.ejs', {validationErrors: errors?.morningMood}) %>
+            <output><%= values?.morningMood ? values.morningMood : 3 %></output><input type="range"
+                value="<%= values?.morningMood ? values.morningMood : 3 %>" min="1" max="5" id="fmorning_mood"
+                name="morning_mood" oninput="this.previousElementSibling.value = this.value">
         </div>
         <input type="submit" value="Submit" /><br>
     </form>

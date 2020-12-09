@@ -23,7 +23,13 @@ export {
 } from "https://deno.land/std@0.78.0/testing/asserts.ts";
 export {
   isEmail,
+  isInt,
+  isNumber,
+  isNumeric,
   minLength,
+  minNumber,
+  notNull,
+  numberBetween,
   required,
   validate,
 } from "https://deno.land/x/validasaur@v0.15.0/mod.ts";

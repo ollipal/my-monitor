@@ -46,7 +46,7 @@ const _getData = async (request) => {
   };
 };
 
-const postAuthRegister = async ({ request, render, response, session }) => {
+const postAuthRegister = async ({ request, response, session }) => {
   const data = await _getData(request);
   // check validation rules
   const validationResult = await validate(data, userRules);

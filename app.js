@@ -39,7 +39,7 @@ const oakAdapter = adapterFactory.getOakAdapter();
 app.use(
   viewEngine(oakAdapter, ejsEngine, {
     viewRoot: "./views",
-    useCache: true,
+    /*useCache: true,*/
   }),
 );
 
