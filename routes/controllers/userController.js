@@ -30,7 +30,7 @@ const getAuthLogout = async ({ render, session }) => {
   render("authLogout.ejs", { email: await getUserEmail(session) });
 };
 
-const userRules = {
+const _userRules = {
   email: [required, isEmail],
   password: [required, minLength(4)],
 };
@@ -42,14 +42,13 @@ const _getData = async (request) => {
     email: params.get("email"),
     password: params.get("password"),
     verification: params.get("verification"),
-    errors: {},
   };
 };
 
 const postAuthRegister = async ({ request, response, session }) => {
   const data = await _getData(request);
   // check validation rules
-  const validationResult = await validate(data, userRules);
+  const validationResult = await validate(data, _userRules);
   let passes = validationResult[0];
   const errors = validationResult[1];
   // check verfification
@@ -99,6 +98,9 @@ const postAuthLogout = async ({ response, session }) => {
 };
 
 export {
+  // testing
+  _userRules,
+  // normal
   getAuthLogin,
   getAuthLogout,
   getAuthRegister,

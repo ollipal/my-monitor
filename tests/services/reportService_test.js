@@ -10,10 +10,10 @@ Deno.test("formattedDate formats correctly", async () => {
   assertEquals(formattedDate(new Date(2000, 0, 1)), "2000-01-01");
 });
 
-Deno.test(
-  "_getUserMorningAveragesByWeekOrMonth throws error " +
+Deno.test({
+  name: "_getUserMorningAveragesByWeekOrMonth throws error " +
     "when no week or month is passed",
-  async () => {
+  fn: async () => {
     assertThrowsAsync(
       async () => {
         await _getUserMorningAveragesByWeekOrMonth({
@@ -25,12 +25,14 @@ Deno.test(
       "Define week or month (only one)",
     );
   },
-);
+  sanitizeResources: false,
+  sanitizeOps: false,
+});
 
-Deno.test(
-  "_getUserMorningAveragesByWeekOrMonth throws error " +
+Deno.test({
+  name: "_getUserMorningAveragesByWeekOrMonth throws error " +
     "when both week and month is passed",
-  async () => {
+  fn: async () => {
     assertThrowsAsync(
       async () => {
         await _getUserMorningAveragesByWeekOrMonth({
@@ -44,4 +46,6 @@ Deno.test(
       "Define week or month (only one)",
     );
   },
-);
+  sanitizeResources: false,
+  sanitizeOps: false,
+});

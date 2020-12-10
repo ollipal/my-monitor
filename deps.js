@@ -18,6 +18,7 @@ export { compare, hash } from "https://deno.land/x/bcrypt@v0.2.4/mod.ts";
 export { oakCors } from "https://deno.land/x/cors@v1.2.1/mod.ts";
 export { superoak } from "https://deno.land/x/superoak@2.3.1/mod.ts";
 export {
+  assert,
   assertEquals,
   assertThrowsAsync,
 } from "https://deno.land/std@0.78.0/testing/asserts.ts";
@@ -28,7 +29,6 @@ export {
   isNumeric,
   minLength,
   minNumber,
-  notNull,
   numberBetween,
   required,
   validate,

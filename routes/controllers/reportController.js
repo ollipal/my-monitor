@@ -14,7 +14,6 @@ import {
   isNumber,
   isNumeric,
   minNumber,
-  notNull,
   numberBetween,
   required,
   validate,
@@ -197,6 +196,10 @@ const postMonthform = async ({ request, response, session }) => {
 };
 
 export {
+  _eveningRules,
+  // testing
+  _morningRules,
+  // normal
   getBehaviourReporting,
   getBehaviourSummary,
   getLanding,
