@@ -12,12 +12,12 @@ if (!Deno.env.get("HEROKU_PORT")) {
       port: Number(Deno.env.get("PG_PORT")),
       database: Deno.env.get("PG_DB_NAME"),
     },
-    CONCURRENT_CONNECTIONS,
+    CONCURRENT_CONNECTIONS
   );
 } else {
   connectionPool = new Pool(
     Deno.env.toObject().DATABASE_URL,
-    CONCURRENT_CONNECTIONS,
+    CONCURRENT_CONNECTIONS
   );
 }
 

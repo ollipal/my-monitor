@@ -1,4 +1,3 @@
-import { weekOfYear } from "../../deps.js";
 import * as reportService from "../../services/reportService.js";
 
 const getReports = async ({ response }) => {

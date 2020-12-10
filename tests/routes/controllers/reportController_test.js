@@ -3,7 +3,7 @@ import { assert, superoak, validate } from "../../../deps.js";
 import {
   _eveningRules,
   _morningRules,
-} from "../../../routes/controllers/reportController.js";
+} from "../../../services/validationService.js";
 
 Deno.test({
   name: "GET to / returns 200",
@@ -65,9 +65,9 @@ Deno.test({
             ...validMorningReport,
             morningDateString: "",
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -85,9 +85,9 @@ Deno.test({
             sleepDurationString: "",
             sleepDuration: NaN,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -105,9 +105,9 @@ Deno.test({
             sleepQualityString: "",
             sleepQuality: NaN,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -125,9 +125,9 @@ Deno.test({
             morningMoodString: "",
             morningMood: NaN,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -145,9 +145,9 @@ Deno.test({
             sleepDurationString: "-1",
             sleepDuration: -1.0,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -165,9 +165,9 @@ Deno.test({
             sleepQualityString: "1.5",
             sleepQuality: 1.5,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -185,9 +185,9 @@ Deno.test({
             morningMoodString: "1.5",
             morningMood: 1.5,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -205,9 +205,9 @@ Deno.test({
             sleepQualityString: "6",
             sleepQuality: 6.0,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -225,9 +225,9 @@ Deno.test({
             morningMoodString: "6",
             morningMood: 6.0,
           },
-          _morningRules,
+          _morningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -244,9 +244,9 @@ Deno.test({
             ...validEveningReport,
             eveningDateString: "",
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -264,9 +264,9 @@ Deno.test({
             sportsDurationString: "",
             sportsDuration: NaN,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -284,9 +284,9 @@ Deno.test({
             studyDurationString: "",
             studyDuration: NaN,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -304,9 +304,9 @@ Deno.test({
             eatingQualityString: "",
             eatingQuality: NaN,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -324,9 +324,9 @@ Deno.test({
             eveningMoodString: "",
             eveningMood: NaN,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -344,9 +344,9 @@ Deno.test({
             sportsDurationString: "-1",
             sportsDuration: -1,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -364,9 +364,9 @@ Deno.test({
             studyDurationString: "-1",
             studyDuration: -1,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -384,9 +384,9 @@ Deno.test({
             eatingQualityString: "1.5",
             eatingQuality: 1.5,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -404,9 +404,9 @@ Deno.test({
             eatingQualityString: "6",
             eatingQuality: 6,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -424,9 +424,9 @@ Deno.test({
             eveningMoodString: "1.5",
             eveningMood: 1.5,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -444,9 +444,9 @@ Deno.test({
             eveningMoodString: "6",
             eveningMood: 6,
           },
-          _eveningRules,
+          _eveningRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,

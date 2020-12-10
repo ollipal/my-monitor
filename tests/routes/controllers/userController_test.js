@@ -1,6 +1,6 @@
 import app from "../../../app.js";
 import { assert, superoak, validate } from "../../../deps.js";
-import { _userRules } from "../../../routes/controllers/userController.js";
+import { _userRules } from "../../../services/validationService.js";
 
 Deno.test({
   name: "GET to /auth/register renders (returns 200)",
@@ -57,9 +57,9 @@ Deno.test({
             ...validEmailPassword,
             email: "",
           },
-          _userRules,
+          _userRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -76,9 +76,9 @@ Deno.test({
             ...validEmailPassword,
             password: "",
           },
-          _userRules,
+          _userRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -95,9 +95,9 @@ Deno.test({
             ...validEmailPassword,
             email: "notvalid",
           },
-          _userRules,
+          _userRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,
@@ -115,9 +115,9 @@ Deno.test({
             password: "tes",
             verification: "tes",
           },
-          _userRules,
+          _userRules
         )
-      )[0],
+      )[0]
     );
   },
   sanitizeResources: false,

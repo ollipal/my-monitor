@@ -34,10 +34,14 @@ This is followed by another check of the tables in the database.
 
 ```
 $ heroku pg:psql ${database_name} --app ${application_name}
+
 // ...
+
 ${application_name}::DATABASE=> \dt
 Did not find any relations.
-// run the readme pg commands
+
+// run the SETUP.sql commands
+
 ${application_name}::DATABASE=> \dt
                  List of relations
  Schema |      Name       | Type  |     Owner
@@ -46,7 +50,9 @@ ${application_name}::DATABASE=> \dt
  public | morning_reports | table | (owner)
  public | users           | table | (owner)
  (3 rows)
+
 // ...
+
 ${application_name}::DATABASE=> \q
 
 ```

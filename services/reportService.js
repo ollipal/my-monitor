@@ -37,7 +37,7 @@ const _getUserMorningAveragesByWeekOrMonth = async ({
     WHERE user_id = $1 AND to_char(date, $2) = $3;`,
     userId,
     week ? "IYYY-IW" : "IYYY-MM",
-    week ? `${year}-${week}` : `${year}-${month}`,
+    week ? `${year}-${week}` : `${year}-${month}`
   );
 
   // why res.rowCount > 0 when there is no actual data...
@@ -67,7 +67,7 @@ const _getUserEveningAveragesByWeekOrMonth = async ({
     WHERE user_id = $1 AND to_char(date, $2) = $3;`,
     userId,
     week ? "IYYY-IW" : "IYYY-MM",
-    week ? `${year}-${week}` : `${year}-${month}`,
+    week ? `${year}-${week}` : `${year}-${month}`
   );
 
   // why res.rowCount > 0 when there is no actual data...
@@ -128,7 +128,7 @@ const _getAllMorningAveragesPast7days = async () => {
     FROM morning_reports
     WHERE date BETWEEN $1 AND $2`,
     new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-    new Date(),
+    new Date()
   );
 
   // why res.rowCount > 0 when there is no actual data...
@@ -149,7 +149,7 @@ const _getAllEveningAveragesPast7days = async () => {
     FROM evening_reports
     WHERE date BETWEEN $1 AND $2`,
     new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-    new Date(),
+    new Date()
   );
 
   // why res.rowCount > 0 when there is no actual data...
@@ -174,7 +174,7 @@ const _getAllMorningAveragesByDate = async (date) => {
     AVG(morning_mood)::numeric(10,2) AS average_morning_mood
     FROM morning_reports
     WHERE to_char(date, 'IYYY-MM-DD') = $1;`,
-    date,
+    date
   );
 
   // why res.rowCount > 0 when there is no actual data...
@@ -194,7 +194,7 @@ const _getAllEveningAveragesByDate = async (date) => {
     AVG(evening_mood)::numeric(10,2) AS average_evening_mood
     FROM evening_reports
     WHERE to_char(date, 'IYYY-MM-DD') = $1;`,
-    date,
+    date
   );
 
   // why res.rowCount > 0 when there is no actual data...
@@ -218,7 +218,7 @@ const addMorningReport = async (values, userId) => {
     `DELETE FROM morning_reports
     WHERE user_id = $1 AND to_char(date, 'IYYY-MM-DD') = $2;`,
     userId,
-    values.morningDateString,
+    values.morningDateString
   );
   // add new
   await executeQuery(
@@ -229,7 +229,7 @@ const addMorningReport = async (values, userId) => {
     values.morningDateString,
     values.sleepDuration,
     values.sleepQuality,
-    values.morningMood,
+    values.morningMood
   );
 };
 
@@ -239,7 +239,7 @@ const addEveningReport = async (values, userId) => {
     `DELETE FROM evening_reports
     WHERE user_id = $1 AND to_char(date, 'IYYY-MM-DD') = $2;`,
     userId,
-    values.eveningDateString,
+    values.eveningDateString
   );
   // add new
   await executeQuery(
@@ -251,7 +251,7 @@ const addEveningReport = async (values, userId) => {
     values.sportsDuration,
     values.studyDuration,
     values.eatingQuality,
-    values.eveningMood,
+    values.eveningMood
   );
 };
 
@@ -261,7 +261,7 @@ const _getMorningMood = async (date, userId) => {
     FROM morning_reports
     WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
-    formattedDate(date),
+    formattedDate(date)
   );
 };
 
@@ -271,7 +271,7 @@ const _getEveningMood = async (date, userId) => {
     FROM evening_reports
     WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
-    formattedDate(date),
+    formattedDate(date)
   );
 };
 
@@ -296,7 +296,7 @@ const morningReportDoneToday = async (userId) => {
     FROM morning_reports
     WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
-    formattedDate(new Date()),
+    formattedDate(new Date())
   );
   return report ? true : false;
 };
@@ -306,16 +306,16 @@ const eveningReportDoneToday = async (userId) => {
     FROM evening_reports
     WHERE user_id = $1 AND date_trunc('day', date::timestamp) = $2;`,
     userId,
-    formattedDate(new Date()),
+    formattedDate(new Date())
   );
   return report ? true : false;
 };
 
 export {
-  // only for testing
+  // testing
   _getUserEveningAveragesByWeekOrMonth,
   _getUserMorningAveragesByWeekOrMonth,
-  // normal exports
+  // normal
   addEveningReport,
   addMorningReport,
   eveningReportDoneToday,

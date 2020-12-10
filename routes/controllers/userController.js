@@ -1,4 +1,4 @@
-import { isEmail, minLength, required, validate } from "../../deps.js";
+import { validateUser } from "../../services/validationService.js";
 import { loginUser, registerUser } from "../../services/userService.js";
 import {
   forgetUserAuthentication,
@@ -30,11 +30,6 @@ const getAuthLogout = async ({ render, session }) => {
   render("authLogout.ejs", { email: await getUserEmail(session) });
 };
 
-const _userRules = {
-  email: [required, isEmail],
-  password: [required, minLength(4)],
-};
-
 const _getData = async (request) => {
   const body = request.body();
   const params = await body.value;
@@ -48,9 +43,7 @@ const _getData = async (request) => {
 const postAuthRegister = async ({ request, response, session }) => {
   const data = await _getData(request);
   // check validation rules
-  const validationResult = await validate(data, _userRules);
-  let passes = validationResult[0];
-  const errors = validationResult[1];
+  let [passes, errors] = await validateUser(data);
   // check verfification
   if (data.password !== data.verification) {
     errors.verification = { mismatch: "The entered passwords did not match" };
@@ -86,7 +79,7 @@ const postAuthLogin = async ({ request, response, session }) => {
     await saveValuesErrors(
       session,
       {},
-      { email: { _: "Invalid email or password" } },
+      { email: { _: "Invalid email or password" } }
     );
     response.redirect("/auth/login");
   }
@@ -98,9 +91,6 @@ const postAuthLogout = async ({ response, session }) => {
 };
 
 export {
-  // testing
-  _userRules,
-  // normal
   getAuthLogin,
   getAuthLogout,
   getAuthRegister,

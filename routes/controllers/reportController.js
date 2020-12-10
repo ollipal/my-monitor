@@ -9,34 +9,29 @@ import {
   saveWeek,
 } from "../../services/sessionService.js";
 import {
-  format,
-  isInt,
-  isNumber,
-  isNumeric,
-  minNumber,
-  numberBetween,
-  required,
-  validate,
-  weekOfYear,
-} from "../../deps.js";
+  validateMorningReport,
+  validateEveningReport,
+} from "../../services/validationService.js";
+import { format, weekOfYear } from "../../deps.js";
 
 const getLanding = async ({ session, render }) => {
   const userId = await getUserId(session);
   const todaysAverageMood = await reportService.getAverageMood(
     new Date(),
-    userId,
+    userId
   );
   const yesterdaysAverageMood = await reportService.getAverageMood(
     new Date(Date.now() - 24 * 60 * 60 * 1000),
-    userId,
+    userId
   );
-  const moodSummary = !todaysAverageMood || !yesterdaysAverageMood
-    ? "not sure how things are looking..."
-    : todaysAverageMood > yesterdaysAverageMood
-    ? "things are looking bright today"
-    : todaysAverageMood === yesterdaysAverageMood
-    ? "things are looking the same as yesterday"
-    : "things are looking gloomy today";
+  const moodSummary =
+    !todaysAverageMood || !yesterdaysAverageMood
+      ? "not sure how things are looking..."
+      : todaysAverageMood > yesterdaysAverageMood
+      ? "things are looking bright today"
+      : todaysAverageMood === yesterdaysAverageMood
+      ? "things are looking the same as yesterday"
+      : "things are looking gloomy today";
   render("index.ejs", {
     todaysAverageMood: todaysAverageMood ? todaysAverageMood : "N/A",
     yesterdaysAverageMood: yesterdaysAverageMood
@@ -131,32 +126,10 @@ const _parseEveningValues = async (request) => {
   };
 };
 
-const _morningRules = {
-  morningDateString: [required], // not validated to be date
-  sleepDurationString: [required, isNumeric],
-  sleepQualityString: [required, isNumeric],
-  morningMoodString: [required, isNumeric],
-  sleepDuration: [required, isNumber, minNumber(0)],
-  sleepQuality: [required, isInt, numberBetween(1, 5)],
-  morningMood: [required, isInt, numberBetween(1, 5)],
-};
-
-const _eveningRules = {
-  eveningDateString: [required], // not validated to be date
-  sportsDurationString: [required, isNumeric],
-  studyDurationString: [required, isNumeric],
-  eatingQualityString: [required, isNumeric],
-  eveningMoodString: [required, isNumeric],
-  sportsDuration: [required, isNumber, minNumber(0)],
-  studyDuration: [required, isNumber, minNumber(0)],
-  eatingQuality: [required, isInt, numberBetween(1, 5)],
-  eveningMood: [required, isInt, numberBetween(1, 5)],
-};
-
 const postMorningform = async ({ request, response, session }) => {
   const userId = await getUserId(session);
   const values = await _parseMorningValues(request);
-  const [passes, errors] = await validate(values, _morningRules);
+  const [passes, errors] = await validateMorningReport(values);
 
   if (passes) {
     await reportService.addMorningReport(values, userId);
@@ -170,7 +143,7 @@ const postMorningform = async ({ request, response, session }) => {
 const postEveningform = async ({ request, response, session }) => {
   const userId = await getUserId(session);
   const values = await _parseEveningValues(request);
-  const [passes, errors] = await validate(values, _eveningRules);
+  const [passes, errors] = await validateEveningReport(values);
 
   if (passes) {
     await reportService.addEveningReport(values, userId);
@@ -196,10 +169,6 @@ const postMonthform = async ({ request, response, session }) => {
 };
 
 export {
-  _eveningRules,
-  // testing
-  _morningRules,
-  // normal
   getBehaviourReporting,
   getBehaviourSummary,
   getLanding,
