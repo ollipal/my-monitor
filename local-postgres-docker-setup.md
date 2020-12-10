@@ -10,14 +10,14 @@ docker run -d \
     postgres
 ```
 
-(these are just example values)
+(these are just example values, put the chosen values to `config/.env`)
 
 ## Connect to db:
 
-Connect
+To connect
 `docker exec -it postgres-db psql -U postgres postgres-db`
 
 (or from local: `psql postgres-db -h localhost -U postgres`)
 
-Exit:
+To exit:
 `\q`

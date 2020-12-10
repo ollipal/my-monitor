@@ -24,8 +24,8 @@ to [Heroku](https://dashboard.heroku.com/), and data is stored to [PostgreSQL](h
 
 ## Configuring Postgres database:
 
-After getting your local Postgres database running (you can check
-[these instructions](local-postgres-docker-setup.md) if you want to run with Docker),
+After getting your local PostgreSQL database running (you can check
+[these instructions](local-postgres-docker-setup.md) if you want to run PostgreSQL with Docker),
 add proper tables by running the commands in [SETUP.sql](SETUP.sql).
 
 then create an `.env` file to `/config`, and add these variables
@@ -41,14 +41,14 @@ PG_DB_NAME=
 
 ## starting the application
 
-After the database has been configured, you can run
+After the database has been configured with the proper tables, you can run:
 
 - app with: `./app.sh run`
 - tests with: `./app.sh test`
 - formatter with: `./app.sh format`
 - linter with: `./app.sh lint`
 - test+formatter+linter with: `./app.sh pre-commit`
-- requirements ratio met/all: `./app.sh requirements`
+- requirements ratio (met/all): `./app.sh requirements`
 
 (if the bash script is not working on your platform, you can use
 `deno run --allow-read --allow-net --unstable --allow-env app.js` to run the application, and
