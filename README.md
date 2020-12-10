@@ -1,6 +1,6 @@
 # my-monitor
 
-With this application, you can keep track of your behavior, which means t
+With this application, you can keep track of your behavior, which means
 the time spent on:
 
 - sleeping
@@ -15,48 +15,18 @@ and the quality of:
 
 The application can be found at: https://my-m0nit0r.herokuapp.com/
 
-It works with deno + oak framwork, server side rendering with .ejs and
-is styled with PaperCSS! The deployment is automatically with Github
-Actions to Heroku, and data is stored to PostgreSQL.
+It works with [Deno](https://deno.land/) + [oak middleware framework](https://oakserver.github.io/oak/),
+server side rendering with [EJS](https://ejs.co/) and is styled with [PaperCSS](https://www.getpapercss.com/)!
+The deployment is automatically with [Github Actions](https://github.com/features/actions)
+to [Heroku](https://dashboard.heroku.com/), and data is stored to [PostgreSQL](https://www.postgresql.org/).
 
 # Running the application locally
 
 ## Configuring Postgres database:
 
-After creating your Postgres database, add proper tables with:
-
-```
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  email VARCHAR(320) NOT NULL,
-  password CHAR(60) NOT NULL
-);
-
-CREATE UNIQUE INDEX ON users((lower(email)));
-
-CREATE TABLE morning_reports (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) NOT NULL,
-    date DATE NOT NULL,
-    sleep_duration REAL NOT NULL,
-    sleep_quality INT NOT NULL CHECK (0 <= sleep_quality AND sleep_quality <= 5),
-    morning_mood INT NOT NULL CHECK (0 <= morning_mood AND morning_mood <= 5)
-);
-
-CREATE INDEX ON morning_reports(date_trunc('day', date::timestamp));
-
-CREATE TABLE evening_reports (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) NOT NULL,
-    date DATE NOT NULL,
-    sports_duration REAL NOT NULL,
-    study_duration REAL NOT NULL,
-    eating_quality INT NOT NULL CHECK (0 <= eating_quality AND eating_quality <= 5),
-    evening_mood INT NOT NULL CHECK (0 <= evening_mood AND evening_mood <= 5)
-);
-
-CREATE INDEX ON evening_reports(date_trunc('day', date::timestamp));
-```
+After getting your local Postgres database running (you can check
+[these instructions](local-postgres-docker-setup.md) if you want to run with Docker),
+add proper tables by running the commands in [SETUP.sql](SETUP.sql).
 
 then create an `.env` file to `/config`, and add these variables
 with proper values to it:
@@ -69,8 +39,6 @@ PG_PORT=
 PG_DB_NAME=
 ```
 
-(the same values can be found from `/config/.env.examples`)
-
 ## starting the application
 
 After the database has been configured, you can run
@@ -80,28 +48,30 @@ After the database has been configured, you can run
 - formatter with: `./app.sh format`
 - linter with: `./app.sh lint`
 - test+formatter+linter with: `./app.sh pre-commit`
-- requirements met with: `./app.sh requirements`
+- requirements ratio met/all: `./app.sh requirements`
 
 (if the bash script is not working on your platform, you can use
-`deno run --allow-read --allow-net --unstable --allow-env app.js`
-directly to run the application, and
-`TESTING=1 deno test --allow-read --allow-net --allow-env --unstable`
-for running the tests)
-
-# Differences compared to the requirements
-
-The website/api provides information on the week of the date, and not
-necessarily for the past 7 days. This was done because it makes more
-sense to me, and it is tecnically as harder/harder.
+`deno run --allow-read --allow-net --unstable --allow-env app.js` to run the application, and
+`TESTING=1 deno test --allow-read --allow-net --allow-env --unstable` for running the tests)
 
 # Requirements
 
-The requirements for the project requirements can be found at `REQUIREMENTS.md`
+This project was made for [Aalto University's Web Software Development](https://wsd.cs.aalto.fi/web-software-development/)
+course in 2020.
+
+The requirements for the project can be found at [REQUIREMENTS.md](REQUIREMENTS.md)
 
 Each requirement that has been met is marked with a '✅' symbol.
 
 Each requirement that was implemented, but not in a way that described is marked with ❌
 and attached with an explanation.
 
-The current ratio of [requirements implementd]/[total requirements] can be printed with
-`./app.sh requirements`
+## Deviation from the requirements
+
+- **Test configurations separate from production configurations**  
+  Reason: from the additional instructions: 'if you use environmental variables, there is in practice
+  no need to separate test configurations from production configurations' --> env variables are used
+
+- **Summary page has a selector for week and month. Check input type="week" and input type="month".**  
+  Reason: [no firefox support for type="week"](https://www.w3schools.com/tags/att_input_type_week.asp),
+  type="number" input type was used
