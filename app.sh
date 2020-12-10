@@ -19,7 +19,7 @@ pre-commit)
     echo "linting:" && ./app.sh lint
     ;;
 requirements)
-    echo "Requirements met: $(grep -E "✅|❌" REQUIREMENTS.md | wc -l)/$(grep " - " REQUIREMENTS.md | wc -l)"
+    echo "Requirements met: $(grep -E "✅|❌" docs/REQUIREMENTS.md | wc -l)/$(grep " - " docs/REQUIREMENTS.md | wc -l)"
     ;;
 *)
     echo $"Usage: $0 [run|test|format|lint|pre-commit|requirements]"
