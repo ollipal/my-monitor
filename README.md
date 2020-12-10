@@ -59,7 +59,7 @@ After the database has been configured with the proper tables, you can run:
 This project was made for [Aalto University's Web Software Development](https://wsd.cs.aalto.fi/web-software-development/)
 course in 2020.
 
-The requirements for the project can be found at [/docs/REQUIREMENTS.md](/docs/REQUIREMENTS.md)
+The requirements for the project can be found at [/docs/REQUIREMENTS.md](/docs/REQUIREMENTS.md).
 
 Each requirement that has been met is marked with a '✅' symbol.
 

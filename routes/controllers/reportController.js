@@ -9,8 +9,8 @@ import {
   saveWeek,
 } from "../../services/sessionService.js";
 import {
-  validateMorningReport,
   validateEveningReport,
+  validateMorningReport,
 } from "../../services/validationService.js";
 import { format, weekOfYear } from "../../deps.js";
 
@@ -18,20 +18,19 @@ const getLanding = async ({ session, render }) => {
   const userId = await getUserId(session);
   const todaysAverageMood = await reportService.getAverageMood(
     new Date(),
-    userId
+    userId,
   );
   const yesterdaysAverageMood = await reportService.getAverageMood(
     new Date(Date.now() - 24 * 60 * 60 * 1000),
-    userId
+    userId,
   );
-  const moodSummary =
-    !todaysAverageMood || !yesterdaysAverageMood
-      ? "not sure how things are looking..."
-      : todaysAverageMood > yesterdaysAverageMood
-      ? "things are looking bright today"
-      : todaysAverageMood === yesterdaysAverageMood
-      ? "things are looking the same as yesterday"
-      : "things are looking gloomy today";
+  const moodSummary = !todaysAverageMood || !yesterdaysAverageMood
+    ? "not sure how things are looking..."
+    : todaysAverageMood > yesterdaysAverageMood
+    ? "things are looking bright today"
+    : todaysAverageMood === yesterdaysAverageMood
+    ? "things are looking the same as yesterday"
+    : "things are looking gloomy today";
   render("index.ejs", {
     todaysAverageMood: todaysAverageMood ? todaysAverageMood : "N/A",
     yesterdaysAverageMood: yesterdaysAverageMood

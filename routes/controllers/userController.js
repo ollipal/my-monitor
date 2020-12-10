@@ -43,6 +43,7 @@ const _getData = async (request) => {
 const postAuthRegister = async ({ request, response, session }) => {
   const data = await _getData(request);
   // check validation rules
+  // deno-lint-ignore prefer-const
   let [passes, errors] = await validateUser(data);
   // check verfification
   if (data.password !== data.verification) {
@@ -79,7 +80,7 @@ const postAuthLogin = async ({ request, response, session }) => {
     await saveValuesErrors(
       session,
       {},
-      { email: { _: "Invalid email or password" } }
+      { email: { _: "Invalid email or password" } },
     );
     response.redirect("/auth/login");
   }

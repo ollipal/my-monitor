@@ -1,12 +1,12 @@
 import {
   isEmail,
-  minLength,
-  required,
   isInt,
   isNumber,
   isNumeric,
+  minLength,
   minNumber,
   numberBetween,
+  required,
   validate,
 } from "../deps.js";
 
@@ -46,12 +46,12 @@ const validateEveningReport = async (data) =>
   await validate(data, _eveningRules);
 
 export {
+  _eveningRules,
+  _morningRules,
   // testing
   _userRules,
-  _morningRules,
-  _eveningRules,
+  validateEveningReport,
+  validateMorningReport,
   // normal
   validateUser,
-  validateMorningReport,
-  validateEveningReport,
 };
