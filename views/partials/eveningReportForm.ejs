@@ -4,28 +4,24 @@
         <div class="form-group my-error-form">
             <label for="fdate">Date:</label><br>
             <%- include('./validationErrors.ejs', {validationErrors: errors?.eveningDateString}) %>
-            <input type="date" id="fdate" name="date"
-                value="<%= values?.eveningDateString ? values.eveningDateString : date %>"><br>
+            <input type="date" id="fdate" name="date" value="<%= values?.eveningDateString || date %>"><br>
             <label for="fsports_duration">Sports duration (in hours):</label><br>
-            <%- include('./validationErrors.ejs', {validationErrors: errors?.sportsDurationString}) %>
-            <%- include('./validationErrors.ejs', {validationErrors: errors?.sportsDuration}) %>
+            <%- include('./validationErrors.ejs', {validationErrors: {...errors?.sportsDurationString, ...errors?.sportsDuration}}) %>
             <input type="number" id="fsports_duration" name="sports_duration" step="0.1"
                 value="<%= values?.sportsDuration %>"><br>
             <label for="fstudy_duration">Study duration (in hours):</label><br>
-            <%- include('./validationErrors.ejs', {validationErrors: errors?.studyDurationString}) %>
-            <%- include('./validationErrors.ejs', {validationErrors: errors?.studyDuration}) %>
+            <%- include('./validationErrors.ejs', {validationErrors: {...errors?.studyDurationString, ...errors?.studyDuration}}) %>
             <input type="number" id="fstudy_duration" name="study_duration" step="0.1"
                 value="<%= values?.studyDuration %>"><br>
             <label for="feating_quality">Eating quality: </label>
-            <output><%= values?.eatingQuality ? values.eatingQuality : 3 %></output><input type="range"
-                value="<%= values?.eatingQuality ? values.eatingQuality : 3 %>" min="1" max="5" id="feating_quality"
-                name="eating_quality" oninput="this.previousElementSibling.value = this.value"><br>
+            <output><%= values?.eatingQuality || 3 %></output><input type="range"
+                value="<%= values?.eatingQuality || 3 %>" min="1" max="5" id="feating_quality" name="eating_quality"
+                oninput="this.previousElementSibling.value = this.value"><br>
             <label for="fevening_mood">Generic mood: </label>
-            <%- include('./validationErrors.ejs', {validationErrors: errors?.eveningMoodString}) %>
-            <%- include('./validationErrors.ejs', {validationErrors: errors?.eveningMood}) %>
-            <output><%= values?.eveningMood ? values.eveningMood : 3 %></output><input type="range"
-                value="<%= values?.eveningMood ? values.eveningMood : 3 %>" min="1" max="5" id="fevening_mood"
-                name="evening_mood" oninput="this.previousElementSibling.value = this.value">
+            <%- include('./validationErrors.ejs', {validationErrors: {...errors?.eveningMoodString, ...errors?.eveningMood}}) %>
+            <output><%= values?.eveningMood || 3 %></output><input type="range" value="<%= values?.eveningMood || 3 %>"
+                min="1" max="5" id="fevening_mood" name="evening_mood"
+                oninput="this.previousElementSibling.value = this.value">
         </div>
         <input type="submit" value="Submit" /><br>
     </form>
